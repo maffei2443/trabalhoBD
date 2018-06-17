@@ -22,3 +22,7 @@
 - [ ] *Utilização de ao menos uma ***view*** .
 
 - [ ] *Utilização de ao menos uma ***procedure*** com comandos condicionais.
+
+### Além disso...
+- [ ] aprender a usar a biblioteca 
+- [ ] criar as classes para acessar o BD. Casicamente, pensei em interfaces para, no fim das contas, concatenar tudo numa query.
