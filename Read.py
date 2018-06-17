@@ -11,6 +11,7 @@ def Read(conn_db, coluna, tabela):
     dados = cursor.fetchall()
 
     return dados
+    
 if __name__ == "__main__":
     # Código para teste
     exp,db = input("Coluna e Tabela: ").split(" ")     

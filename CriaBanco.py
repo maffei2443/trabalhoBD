@@ -17,4 +17,5 @@ def CriaBanco(conn_db):
             if(line.endswith(";")):
                 cursor.execute(query)
                 query = ""
+                
     print("Banco de dados mydb criado com sucesso")
