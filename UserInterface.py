@@ -22,18 +22,18 @@ def UserRead():
 
 if __name__ == "__main__":
     print("Digite o nome do usuario mysql: ")
-    user = input()
+    user = raw_input()
     print("Digite a senha do usuario mysql: ")
-    passwd = input()
+    passwd = raw_input()
 
     # Cria conexao com o banco. No caso, caso voce possua uma instancia do MySQL rodando
     # localmente, pode-se atribuir ao parametro host o valor "localhost"
     conn_db = MySQLdb.connect(host="localhost", port=3306, user=user, passwd=passwd)
 
     print("Deseja criar/resetar o banco? (Y/N)")
-    op = input()
+    op = raw_input()
 
-    if(op == "Y"):
+    if(op == "Y" or op == "y"):
         CriaBanco(conn_db)
 
     conn_db = MySQLdb.connect(host="localhost", db="mydb", port=3306, user=user, passwd=passwd)
