@@ -8,7 +8,7 @@ conn_db = MySQLdb.connect(host="localhost", port=3306, user="root", passwd="q123
 cursor = conn_db.cursor()
 
 print "Digite o caminho absoluto para o script que cria o banco de dados"
-createScript = raw_input()
+createScript = input()
 
 query = ""
 for line in open(createScript):
@@ -20,7 +20,7 @@ for line in open(createScript):
 
 # Teste de insercao na tabela "mydb.Local"
 cursor.execute("SELECT * FROM mydb.Local")
-print cursor.fetchall()
+print(cursor.fetchall())
 
 cursor.execute("INSERT INTO mydb.Local"+
                 "(idLocal, Nome, Regiao, EstatisticaPartidaria)"+
@@ -31,7 +31,7 @@ cursor.execute("INSERT INTO mydb.Local"+
                 "VALUES (2, \"Aguas Filtradas\", \"MG\", \"Divertido\");")
 
 cursor.execute("SELECT * FROM mydb.Local")
-print cursor.fetchall()
+print(cursor.fetchall())
 
 # FECHAR conexao com o banco
 conn_db.close()
