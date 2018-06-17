@@ -1,16 +1,34 @@
 import MySQLdb
 
-# Cria conexao com o banco. No caso, caso você possua uma instância do MySQL rodando
-# localmente, pode-se atribuir ao parâmetro host o valor "localhost"
-conn_db = _mysql.connect(host="172.17.0.2", port=3306, user="root", passwd="root")
+# Cria conexao com o banco. No caso, caso voce possua uma instancia do MySQL rodando
+# localmente, pode-se atribuir ao parametro host o valor "localhost"
+conn_db = MySQLdb.connect(host="localhost", port=3306, user="root", passwd="q123q123")
 
-# Mandar como parâmetro uma string, que será executada como um query SQL
-conn_db.query("create database trabd")
-conn_db.query("use trabd;")
+# Usar cursor para fazer queries sql
+cursor = conn_db.cursor()
 
-# Pronto! Usar o db.query() é como se estivesse na CLI do mysql.
-# PS: db.query("show databases;") DÁ ERRO e dps disso só consegui acessa o banco 
-# normalmente após fechar a conexão.
+print "Digite o caminho absoluto para o script que cria o banco de dados"
+createScript = raw_input()
 
-# FECHAR conexão com o banco
+query = ""
+for line in open(createScript):
+    if(line.find("--")):
+        query += line
+        if(line[-1] == ';'):
+            cursor.execute(query)
+            query = ""
+
+
+# Teste de insercao na tabela "mydb.Local"
+cursor.execute("SELECT * FROM mydb.Local")
+print cursor.fetchall()
+
+cursor.execute("INSERT INTO mydb.Local"+
+                "(idLocal, Nome, Regiao, EstatisticaPartidaria)"+
+                "VALUES (1, \"Cidade\", \"GO\", \"Muito bom\");")
+
+cursor.execute("SELECT * FROM mydb.Local")
+print cursor.fetchall()
+
+# FECHAR conexao com o banco
 conn_db.close()
