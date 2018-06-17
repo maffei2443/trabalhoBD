@@ -2,11 +2,7 @@
 # -*- coding: UTF-8 -*-
 import MySQLdb
 import os
-from CriaBanco import CriaBanco
-from Delete import Delete
-from Read import Read
-from Insert import Insert
-from Update import Update
+from CRUD import *
 
 def clear():
     os.system("clear")
@@ -24,19 +20,19 @@ def UserRead():
 
 if __name__ == "__main__":
     print("Digite o nome do usuario mysql: ")
-    user = raw_input()
+    user = input()
     print("Digite a senha do usuario mysql: ")
-    passwd = raw_input()
+    passwd = input()
 
     # Cria conexao com o banco. No caso, caso voce possua uma instancia do MySQL rodando
     # localmente, pode-se atribuir ao parametro host o valor "localhost"
     conn_db = MySQLdb.connect(host="localhost", port=3306, user=user, passwd=passwd)
 
     print("Deseja criar/resetar o banco? (Y/N)")
-    op = raw_input()
+    op = input()
 
     if(op == "Y" or op == "y"):
-        CriaBanco(conn_db)
+        CreateDb(conn_db)
 
     conn_db = MySQLdb.connect(host="localhost", db="mydb", port=3306, user=user, passwd=passwd)
 
@@ -53,7 +49,7 @@ if __name__ == "__main__":
         print("# Sair      - 5   #")
         print("###################")
         print("# Opção: ")
-        option = int(raw_input())
+        option = int(input())
 
         if(option == 1):
             clear()
