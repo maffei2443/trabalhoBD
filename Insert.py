@@ -11,7 +11,7 @@ def Insert(conn_db):
         print(table[0])
     
     print("Digite o nome da tabela na qual deseja inserir dados: ")
-    tableName = input()
+    tableName = raw_input()
     cursor.execute("SHOW columns FROM " + tableName)
     
     columns = cursor.fetchall()
@@ -20,7 +20,7 @@ def Insert(conn_db):
     values = ""
     for column in columns:
         print("Digite um valor do tipo " + column[1] + " para a coluna " + column[0] + ": ")
-        value = input()
+        value = raw_input()
         if len(valuesNames):
             valuesNames += ", "
         if len(values):

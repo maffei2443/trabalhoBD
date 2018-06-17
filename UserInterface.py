@@ -6,6 +6,7 @@ from CriaBanco import CriaBanco
 from Delete import Delete
 from Read import Read
 from Insert import Insert
+from Update import Update
 
 def clear():
     os.system("clear")
@@ -17,6 +18,7 @@ def UserCreate():
     Insert(conn_db)
 def UserUpdate():
     print("UserUpdate")
+    Update(conn_db)
 def UserRead():
     print("UserRead")
 
@@ -51,7 +53,7 @@ if __name__ == "__main__":
         print("# Sair      - 5   #")
         print("###################")
         print("# Opção: ")
-        option = int(input())
+        option = int(raw_input())
 
         if(option == 1):
             clear()
