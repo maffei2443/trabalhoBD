@@ -2,7 +2,7 @@ candidato(
 	nome <NOT NULL>,
 	numero_id <PK>,
 	foto,
-	formação,
+	formacao,
 	alfabetizacao,
 	propostas,
 	origem <NOT NULL> <FK> <referencia local>,
