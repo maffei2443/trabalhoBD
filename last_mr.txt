@@ -1,0 +1,48 @@
+candidato(
+	nome <NOT NULL>,
+	numero_id <PK>,
+	foto,
+	formação,
+	alfabetizacao,
+	propostas,
+	origem <NOT NULL> <FK> <referencia local>,
+	partido <NOT NULL> <FK> <referencia partido>
+)
+
+local(
+	id <PK>,
+	nome <NOT NULL>,
+	unidade <NOT NULL>,
+	regiao,
+	estatistica_partidaria
+)
+
+cargo(
+	id <PK>,
+	nome <NOT NULL>,
+	poder <NOT NULL>,
+	pre_req
+)
+
+partido(
+	id <PK>,
+	nome <NOT NULL>,
+	sigla <NOT NULL> <UNIQUE>,
+	alinhamento,
+	coligacao <FK> <referencia coligacao>
+)
+
+coligacao(
+	id <PK>,
+	nome <NOT NULL> <UNIQUE>,
+	majoritaria <NOT NULL>,
+	proporcional <NOT NULL>,
+	presidente <NOT NULL> <FK> <referencia candidato>
+)
+
+candidatura(
+	intencao_de_votos,
+	candidato <PK> <FK> <referencia candidato>,
+	local <NOT NULL> <FK> <referencia local>,
+	cargo <NOT NULL> <FK> <referencia cargo>
+)
