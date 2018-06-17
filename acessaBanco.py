@@ -2,23 +2,24 @@ import MySQLdb
 
 # Cria conexao com o banco. No caso, caso voce possua uma instancia do MySQL rodando
 # localmente, pode-se atribuir ao parametro host o valor "localhost"
-conn_db = MySQLdb.connect(host="localhost", port=3306, user="root", passwd="q123q123")
+conn_db = MySQLdb.connect(host="localhost", port=3306, user="root", passwd="jiojio")
 
 # Usar cursor para fazer queries sql
 cursor = conn_db.cursor()
 
-print "Digite o caminho absoluto para o script que cria o banco de dados"
-createScript = input()
+createScript = "criaBanco.sql"
 
 query = ""
+
 for line in open(createScript):
     if(line.find("--")):
+        line = line.rstrip("\n")
         query += line
-        if(line[-1] == ';'):
+        if(line.endswith(";")):
             cursor.execute(query)
             query = ""
 
-# Teste de insercao na tabela "mydb.Local"
+#Teste de insercao na tabela "mydb.Local"
 cursor.execute("SELECT * FROM mydb.Local")
 print(cursor.fetchall())
 
