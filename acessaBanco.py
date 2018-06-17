@@ -18,7 +18,6 @@ for line in open(createScript):
             cursor.execute(query)
             query = ""
 
-
 # Teste de insercao na tabela "mydb.Local"
 cursor.execute("SELECT * FROM mydb.Local")
 print cursor.fetchall()
@@ -26,6 +25,10 @@ print cursor.fetchall()
 cursor.execute("INSERT INTO mydb.Local"+
                 "(idLocal, Nome, Regiao, EstatisticaPartidaria)"+
                 "VALUES (1, \"Cidade\", \"GO\", \"Muito bom\");")
+
+cursor.execute("INSERT INTO mydb.Local"+
+                "(idLocal, Nome, Regiao, EstatisticaPartidaria)"+
+                "VALUES (2, \"Aguas Filtradas\", \"MG\", \"Divertido\");")
 
 cursor.execute("SELECT * FROM mydb.Local")
 print cursor.fetchall()
