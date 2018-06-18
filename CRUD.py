@@ -69,50 +69,14 @@ def Read(conn_db, coluna, tabela):
 
     return dados
 
-def Update(conn_db):
+def Update(conn_db, table, fieldName, newValue, id):
     # No campo "passwd" coloca a senha correspondente ao seu MySQL
     cursor = conn_db.cursor()
 
-    tables = GetTables(conn_db)
-    for i in tables:
-        print(i)
-
-    tableName = input("Digite o nome da tabela na qual deseja atualizar os dados: ")
-    cursor.execute("SELECT * FROM " + tableName)
-
-    obs = cursor.fetchall()
-
-    for i in obs:
-        print(i)
-    print("\n")
-
-    cursor.execute("DESCRIBE " + tableName)
-    fields = cursor.fetchall()
-
-    for i in fields:
-        print(i[0])
-
-    fieldName = input("Digite o nome do campo no qual deseja atualizar: ")
-
-    newName = input("Digite o novo valor: ")
-    
-    cursor.execute("SELECT " + fieldName + " FROM " + tableName)
-
-    keyValue = input("Digite o nome da chave do objeto que deseja atualizar(chave de candidatura é o candidato, id da tabela para as demais tabelas): ")
-
-    if tableName == "Candidatura":
-        keyName = "candidato"
-    else:
-        keyName = "id" + tableName
-
-
     # Monta e executa a Query
-    QueryString = "UPDATE " + tableName + " SET " + fieldName + " = " + newName + " WHERE " + keyName + " = " + keyValue
+    QueryString = "UPDATE " + table + " SET " + fieldName + " = " + newValue + " WHERE id" + table + " = " + id + ";"
 
     cursor.execute(QueryString)
-    dados = cursor.fetchall()
-
-    return dados
 
 def CreateDb(conn_db):
     # Usar cursor para fazer queries sql
