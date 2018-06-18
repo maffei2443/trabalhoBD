@@ -15,6 +15,15 @@ def Show_ids(conn_db, tableName):
     for item in ids:
         print(str(item[0]) + " -- " + item[1])
 
+def Check_ids(conn_db, tableName, id):
+    ids = GetIds(conn_db, tableName)    
+
+    exist = False
+    for item in ids:
+        if(id == str(item[0])):
+            exist = True
+    return exist
+
 
 def UserDelete(conn_db):
     print("UserDelete")
@@ -22,17 +31,21 @@ def UserDelete(conn_db):
     for table in tables:
         print("-- " + table)
 
-    tableName = input("\nDigite o nome do tipo de dado que deseja ler: ")
+    tableName = input("\nDigite o nome do tipo de dado que deseja deletar: ")
 
     if(tableName not in tables):
-        input("Não é possível ler um dado do tipo desejado, aperte ENTER para voltar ao menu")
+        input("Não é possível deletar um dado do tipo desejado, aperte ENTER para voltar ao menu")
         return
 
     Show_ids(conn_db, tableName)
 
-    keyValue = input("Digite o nome da chave do objeto que deseja deletar(chave de candidatura é o candidato, id da tabela para as demais tabelas): ")
+    id = input("Digite o nome da chave do objeto que deseja deletar(chave de candidatura é o candidato, id da tabela para as demais tabelas): ")
 
-    Delete(conn_db, tableName, keyValue)    
+    if(Check_ids(conn_db, tableName, id) == False):
+        input("O id que se deseja deletar nao existe, aperte ENTER para voltar ao menu")
+        return
+
+    Delete(conn_db, tableName, id)    
 
 def UserCreate(conn_db):
     print("########## UserCreate ##########")
@@ -86,14 +99,10 @@ def UserUpdate(conn_db):
     
     id = input("\nDigite o id do item que deseja atualizar: ")
 
-    exist = False
-    for item in ids:
-        if(id == str(item[0])):
-            exist = True
-
-    if(exist == False):
+    if(Check_ids(conn_db, tableName, id) == False):
         input("O id que se deseja atualizar nao existe, aperte ENTER para voltar ao menu")
         return
+
 
     data = GetAllTab(conn_db, tableName, id)
     columns = GetColumns(conn_db, tableName)

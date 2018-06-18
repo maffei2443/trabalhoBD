@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Coligacao` (
   CONSTRAINT `fk_Presidente`
     FOREIGN KEY (`presidente`)
     REFERENCES `mydb`.`Candidato` (`idCandidato`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
@@ -72,7 +72,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Partido` (
   CONSTRAINT `fk_Partido_Coligação1`
     FOREIGN KEY (`coligacao`)
     REFERENCES `mydb`.`Coligacao` (`idColigacao`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
@@ -97,12 +97,12 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Candidato` (
   CONSTRAINT `fk_Candidato_Local1`
     FOREIGN KEY (`origem`)
     REFERENCES `mydb`.`Local` (`idLocal`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Candidato_Partido1`
     FOREIGN KEY (`partido`)
     REFERENCES `mydb`.`Partido` (`idPartido`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
@@ -138,17 +138,17 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Candidatura` (
   CONSTRAINT `fk_Candidatura_Candidato`
     FOREIGN KEY (`candidato`)
     REFERENCES `mydb`.`Candidato` (`idCandidato`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Candidatura_Local1`
     FOREIGN KEY (`local`)
     REFERENCES `mydb`.`Local` (`idLocal`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Candidatura_Cargo`
     FOREIGN KEY (`cargo`)
     REFERENCES `mydb`.`Cargo` (`idCargo`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;  
 
@@ -156,20 +156,3 @@ ENGINE = InnoDB;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
-
-
-
-DELIMITER $$
- 
-CREATE PROCEDURE Delete_Candidato(IN quantidade INT)
-BEGIN
-    delete from Candidatura where candidato in 
-      (select * from 
-        (select candidato from 
-          Candidatura col, Candidato can 
-          WHERE col.candidato = can.idCandidato AND can.idCandidato = par_id) as p);
-
-
-
-END $$
-DELIMITER ;
