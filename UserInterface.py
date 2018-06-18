@@ -24,7 +24,7 @@ def UserCreate(conn_db):
     valuesNames = ""
     values = ""
     for column in columns:
-        if(column[2] == "YES" or column[3] == "MUL"):
+        if(column[2] == "YES"):
             print("Deseja manter o valor da coluna " + column[0] + " nulo?(Y/N)")
             option = input()
             if(option == 'Y' or option == 'y'):
