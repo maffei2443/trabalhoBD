@@ -1,6 +1,6 @@
 candidato(
 	nome <NOT NULL>,
-	numero_id <PK>,
+	idCandidato <PK>,
 	foto,
 	formacao,
 	alfabetizacao,
@@ -10,7 +10,7 @@ candidato(
 )
 
 local(
-	id <PK>,
+	idLocal <PK>,
 	nome <NOT NULL>,
 	unidade <NOT NULL>,
 	regiao,
@@ -18,14 +18,14 @@ local(
 )
 
 cargo(
-	id <PK>,
+	idCargo <PK>,
 	nome <NOT NULL>,
 	poder <NOT NULL>,
 	pre_req
 )
 
 partido(
-	id <PK>,
+	idPartido <PK>,
 	nome <NOT NULL>,
 	sigla <NOT NULL> <UNIQUE>,
 	alinhamento,
@@ -33,7 +33,7 @@ partido(
 )
 
 coligacao(
-	id <PK>,
+	idColigacao <PK>,
 	nome <NOT NULL> <UNIQUE>,
 	majoritaria <NOT NULL>,
 	proporcional <NOT NULL>,
