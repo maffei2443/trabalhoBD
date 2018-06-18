@@ -19,7 +19,6 @@ def GetColumns(conn_db, table):
     cursor.execute("SHOW columns FROM " + table)
     
     columns = cursor.fetchall()
-
     return columns
 
 def Delete(conn_db, tabela):
