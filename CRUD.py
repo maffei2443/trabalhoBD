@@ -41,12 +41,28 @@ def GetColumns(conn_db, table):
 
     return columns
 
-def CandidatoGetSpecial(conn_db, table, value):
+def CandidatoGetLocal(conn_db, table, value):
     cursor = conn_db.cursor()
     
     cursor.execute("select Candidato.idCandidato, Candidato.nome from Candidato inner join " + table + " on Candidato.origem=" + table + ".id" + table + " and " + table + ".Nome=" + value)
 
     return cursor.fetchall()
+
+
+def CandidatoGetPartido(conn_db, table, value):
+    cursor = conn_db.cursor()
+    
+    cursor.execute("select Candidato.idCandidato, Candidato.nome from Candidato inner join " + table + " on Candidato.partido=" + table + ".id" + table + " and " + table + ".Nome=" + value)
+
+    return cursor.fetchall()
+
+def PartidoGetColig(conn_db, table, value):
+    cursor = conn_db.cursor()
+    
+    cursor.execute("select Partido.idPartido, Partido.nome from Partido inner join " + table + " on Partido.coligacao=" + table + ".id" + table + " and " + table + ".Nome=" + value)
+
+    return cursor.fetchall()
+
 def Delete(conn_db, table, value):
     # No campo "passwd" coloca a senha correspondente ao seu MySQL
     cursor = conn_db.cursor()

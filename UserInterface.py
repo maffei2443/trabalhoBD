@@ -198,16 +198,17 @@ def UserSpecial(conn_db):
     try:
         cursor = conn_db.cursor()
 
-        print("########## UserSpeial ##########")
+        print("########## UserSpecial ##########")
         print("#1 - Candidatos de um local     #")
         print("#2 - Candidatos de um partido   #")
+        print("#3 - Partidos de uma coligacao  #")
 
         option = input("# Opção: ")
 
         if(option == "1" or option == "Candidatos de um local"):
             clear()
             local = input("Digite o nome do local: ")
-            data = CandidatoGetSpecial(conn_db, "Local", local)
+            data = CandidatoGetLocal(conn_db, "Local", local)
             for item in data:
                 print("Id -- Nome")
                 print("----------------------")
@@ -217,7 +218,17 @@ def UserSpecial(conn_db):
         elif(option == "2" or option == "Candidatos de um partido"):
             clear()
             partido = input("Digite o nome do partido: ")
-            data = CandidatoGetSpecial(conn_db, "Partido", partido)
+            data = CandidatoGetPartido(conn_db, "Partido", partido)
+            for item in data:
+                print("Id -- Nome")
+                print("----------------------")
+                print(str(item[0]) + "--" + str(item[1]))
+            input("Digite ENTER para voltar ao menu")
+        
+        elif(option == "3" or option == "Partidos de uma coligacao"):
+            clear()
+            colig = input("Digite o nome do local: ")
+            data = PartidoGetColig(conn_db, "Coligacao", colig)
             for item in data:
                 print("Id -- Nome")
                 print("----------------------")
