@@ -178,6 +178,25 @@ def UserRead(conn_db):
 
     input("\nDigite ENTER para retornar ao menu")
 
+def UserSpecial(conn_db):
+    cursor = conn_db.cursor()
+
+    print("########## UserSpeial ##########")
+    print("#1 - Candidatos de um local     #")
+    print("#2 - Candidatos de um partido   #")
+
+    option = input("# Opção: ")
+
+    if(option == "1" or option == "Inserir"):
+        clear()
+        local = input("Digite o local")
+        cursor.execute("select Candidato.idCandidato, Candidato.nome from Candidato inner join Local on Candidato.origem=Local.idLocal and Local.Nome=" + local)
+        input(cursor.fetchall())
+
+    elif(option == "2" or option == "Atualizar"):
+        clear()
+        UserUpdate(conn_db)
+
 if __name__ == "__main__":
 
 
@@ -200,12 +219,13 @@ if __name__ == "__main__":
     while(STAY):
         clear()
         print("###################")
-        print("# Inserir   - 1   #")
-        print("# Atualizar - 2   #") 
-        print("# Ler       - 3   #")
-        print("# Remover   - 4   #")
-        print("#                 #")
-        print("# Sair      - 5   #")
+        print("# Inserir             - 1   #")
+        print("# Atualizar           - 2   #") 
+        print("# Ler                 - 3   #")
+        print("# Remover             - 4   #")
+        print("# Consulta especial   - 5   #")
+        print("#                           #")
+        print("# Sair                - 6   #")
         print("###################")
         option = input("# Opção: ")
 
@@ -221,9 +241,10 @@ if __name__ == "__main__":
         elif(option == "4" or option == "Remover"):
             clear()
             UserDelete(conn_db)
-        elif(option == "5" or option == "Sair"):
+        elif(option == "5" or option == "Consulta especial"):
             clear()
-        elif(option == "6" or option == "photo"):
+            UserSpecial(conn_db)
+        elif(option == "6" or option == "Sair"):
             clear()
             STAY = False 
     
