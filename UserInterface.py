@@ -21,7 +21,7 @@ def UserDelete(conn_db):
 
     keyValue = input("Digite o nome da chave do objeto que deseja deletar(chave de candidatura é o candidato, id da tabela para as demais tabelas): ")
 
-    
+    cursor.execute("DELETE  ")    
 
 
 def UserCreate(conn_db):

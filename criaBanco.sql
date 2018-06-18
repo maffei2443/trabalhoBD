@@ -156,3 +156,20 @@ ENGINE = InnoDB;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+
+
+DELIMITER $$
+ 
+CREATE PROCEDURE Delete_Candidato(IN quantidade INT)
+BEGIN
+    delete from Candidatura where candidato in 
+      (select * from 
+        (select candidato from 
+          Candidatura col, Candidato can 
+          WHERE col.candidato = can.idCandidato AND can.idCandidato = par_id) as p);
+
+
+
+END $$
+DELIMITER ;
