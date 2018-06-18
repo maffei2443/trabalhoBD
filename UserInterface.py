@@ -9,6 +9,20 @@ def clear():
 
 def UserDelete(conn_db):
     print("UserDelete")
+    tables = GetTables(conn_db)
+    for table in tables:
+        print("-- " + table)
+
+    tableName = input("\nDigite o nome do tipo de dado que deseja ler: ")
+
+    if(tableName not in tables):
+        input("Não é possível ler um dado do tipo desejado, aperte ENTER para voltar ao menu")
+        return
+
+    keyValue = input("Digite o nome da chave do objeto que deseja deletar(chave de candidatura é o candidato, id da tabela para as demais tabelas): ")
+
+    
+
 
 def UserCreate(conn_db):
     print("########## UserCreate ##########")
@@ -35,8 +49,8 @@ def UserCreate(conn_db):
 
         value = input("Digite um valor do tipo " + column[1] + " para " + column[0] + ": ")
         
-        if(column[1].find("INT") == -1):
-            value = "\"" + value + "\""
+        #if(column[1].find("INT") == -1):
+        #   value = "\"" + value + "\""
         
         if len(valuesNames):
             valuesNames += ", "

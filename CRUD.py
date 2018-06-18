@@ -58,28 +58,36 @@ def Update(conn_db):
     for i in tables:
         print(i)
 
-    print("Digite o nome da tabela na qual deseja atualizar os dados: ")
-    tableName = input()
+    tableName = input("Digite o nome da tabela na qual deseja atualizar os dados: ")
     cursor.execute("SELECT * FROM " + tableName)
-    print("\n")
 
     obs = cursor.fetchall()
 
     for i in obs:
         print(i)
+    print("\n")
 
-    print("Digite o nome do campo no qual deseja atualizar: ")
-    fieldName = input()
+    cursor.execute("DESCRIBE " + tableName)
+    fields = cursor.fetchall()
 
-    print("Digite o novo valor: ")
-    newName = input()
+    for i in fields:
+        print(i[0])
+
+    fieldName = input("Digite o nome do campo no qual deseja atualizar: ")
+
+
+
+    newName = input("Digite o novo valor: ")
     
     cursor.execute("SELECT " + fieldName + " FROM " + tableName)
 
-    print("Digite o nome da chave do objeto que deseja atualizar: ")
-    keyValue = input()
+    keyValue = input("Digite o nome da chave do objeto que deseja atualizar(chave de candidatura é o candidato, id da tabela para as demais tabelas): ")
 
-    keyName = "id" + tableName
+    if tableName == "Candidatura"
+        keyName = "candidato"
+    else
+        keyName = "id" + tableName
+
 
     # Monta e executa a Query
     QueryString = "UPDATE " + tableName + " SET " + fieldName + " = " + newName + " WHERE " + keyName + " = " + keyValue
