@@ -16,21 +16,18 @@ def UserCreate(conn_db):
     for table in tables:
         print("-- " + table)
 
-    print("\nDigite o nome da tabela na qual deseja inserir dados: ")
-    tableName = input()
+    tableName = input("\nDigite o nome da tabela na qual deseja inserir dados: ")
     
     columns = GetColumns(conn_db, tableName)
 
     valuesNames = ""
     values = ""
     for column in columns:
-        if(column[2] == "YES" or column[3] == "MUL"):
-            print("Deseja manter o valor da coluna " + column[0] + " nulo?(Y/N)")
-            option = input()
+        if(column[2] == "YES"):
+            option = input("Deseja manter o valor da coluna " + column[0] + " nulo?(Y/N)")
             if(option == 'Y' or option == 'y'):
                 continue
-        print("Digite um valor do tipo " + column[1] + " para a coluna " + column[0] + ": ")
-        value = input()
+        value = input("Digite um valor do tipo " + column[1] + " para a coluna " + column[0] + ": ")
         if len(valuesNames):
             valuesNames += ", "
         if len(values):
@@ -46,20 +43,27 @@ def UserUpdate(conn_db):
     Update(conn_db)
 
 def UserRead(conn_db):
-    print("UserRead")
+    print("########## UserRead ##########")
+
+    tables = GetTables(conn_db)
+    for table in tables:
+        print("-- " + table)
+
+    tableName = input("\nDigite o nome da tabela da qual deseja ler dados: ")
+
+    Read(conn_db, "*", tableName)
+
+    input("\n Digite enter para continuar")
 
 if __name__ == "__main__":
-    print("Digite o nome do usuario mysql: ")
-    user = input()
-    print("Digite a senha do usuario mysql: ")
-    passwd = input()
+    user = input("Digite o nome do usuario mysql: ")
+    passwd = input("Digite a senha do usuario mysql: ")
 
     # Cria conexao com o banco. No caso, caso voce possua uma instancia do MySQL rodando
     # localmente, pode-se atribuir ao parametro host o valor "localhost"
     conn_db = MySQLdb.connect(host="localhost", port=3306, user=user, passwd=passwd)
 
-    print("Deseja criar/resetar o banco? (Y/N)")
-    op = input()
+    op = input("Deseja criar/resetar o banco? (Y/N)")
 
     if(op == "Y" or op == "y"):
         CreateDb(conn_db)
@@ -78,8 +82,7 @@ if __name__ == "__main__":
         print("#                 #")
         print("# Sair      - 5   #")
         print("###################")
-        print("# Opção: ")
-        option = int(input())
+        option = int(input("# Opção: "))
 
         if(option == 1):
             clear()
@@ -89,7 +92,7 @@ if __name__ == "__main__":
             UserUpdate(conn_db)
         elif(option == 3):
             clear()
-            UserRead()
+            UserRead(conn_db)
         elif(option == 4):
             clear()
             UserDelete(conn_db)
