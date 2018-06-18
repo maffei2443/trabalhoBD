@@ -7,6 +7,15 @@ from CRUD import *
 def clear():
     os.system("clear")
 
+def Show_columns(conn_db, tableName, id):
+    data = GetAllTab(conn_db, tableName, id)
+    columns = GetColumns(conn_db, tableName)
+
+    print("\nNome do atributo -- Valor")
+    print("-------------------------")
+    for i in range(len(data[0])):
+        print(str(columns[i][0]) + " -- " + str(data[0][i]))
+
 def Show_ids(conn_db, tableName):
     ids = GetIds(conn_db, tableName)
 
@@ -24,6 +33,15 @@ def Check_ids(conn_db, tableName, id):
             exist = True
     return exist
 
+def Check_column(conn_db, tableName, name):
+    columns = GetColumns(conn_db, tableName)
+    
+    exist = False
+    for column in columns:
+        if(column[0] == name):
+            exist = True
+            
+    return exist
 
 def UserDelete(conn_db):
     print("UserDelete")
@@ -107,23 +125,11 @@ def UserUpdate(conn_db):
         input("O id que se deseja atualizar nao existe, aperte ENTER para voltar ao menu")
         return
 
-
-    data = GetAllTab(conn_db, tableName, id)
-    columns = GetColumns(conn_db, tableName)
-
-    print("\nNome do atributo -- Valor")
-    print("-------------------------")
-    for i in range(len(data[0])):
-        print(str(columns[i][0]) + " -- " + str(data[0][i]))
+    Show_columns(conn_db, tableName, id)
     
     name, value = input("Digite o nome do valor e o novo valor que deseja atribuir separados por espaco: ").split(" ")
 
-    exist = False
-    for column in columns:
-        if(column[0] == name):
-            exist = True
-
-    if(exist == False):
+    if(Check_column(conn_db, tableName, name) == False):
         input("O atributo que se deseja atualizar nao existe, aperte ENTER para voltar ao menu")
         return
 
@@ -143,6 +149,8 @@ def UserRead(conn_db):
     if(tableName not in tables):
         input("Não é possível ler um dado do tipo desejado, aperte ENTER para voltar ao menu")
         return
+
+
 
     print(Read(conn_db, "*", tableName))
 
