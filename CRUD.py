@@ -63,7 +63,7 @@ def Read(conn_db, coluna, tabela):
     cursor = conn_db.cursor()
 
     # Monta e executa a Query
-    QueryString = "SELECT " + coluna + " FROM " + tabela
+    QueryString = "SELECT " + coluna + " FROM " + tabela + ";"
     cursor.execute(QueryString)
     dados = cursor.fetchall()
 

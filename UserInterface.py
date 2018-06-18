@@ -3,11 +3,13 @@
 import MySQLdb
 import os
 from CRUD import *
+import PIL.Image
+import base64
 
 def clear():
     os.system("clear")
 
-def Show_columns(conn_db, tableName, id):
+def Show_atb(conn_db, tableName, id):
     data = GetAllTab(conn_db, tableName, id)
     columns = GetColumns(conn_db, tableName)
 
@@ -15,6 +17,12 @@ def Show_columns(conn_db, tableName, id):
     print("-------------------------")
     for i in range(len(data[0])):
         print(str(columns[i][0]) + " -- " + str(data[0][i]))
+
+def Show_columns(conn_db, tableName):
+    columns = GetColumns(conn_db, tableName)
+    print("Atributos de " +  tableName + ":")
+    for column in columns:
+        print(column[0])
 
 def Show_ids(conn_db, tableName):
     ids = GetIds(conn_db, tableName)
@@ -125,7 +133,7 @@ def UserUpdate(conn_db):
         input("O id que se deseja atualizar nao existe, aperte ENTER para voltar ao menu")
         return
 
-    Show_columns(conn_db, tableName, id)
+    Show_atb(conn_db, tableName, id)
     
     name, value = input("Digite o nome do valor e o novo valor que deseja atribuir separados por espaco: ").split(" ")
 
@@ -150,13 +158,29 @@ def UserRead(conn_db):
         input("Não é possível ler um dado do tipo desejado, aperte ENTER para voltar ao menu")
         return
 
+    Show_columns(conn_db, tableName)
 
+    atbs = input("Digite os nomes dos atributos que deseja ver separados por virgula (sem espaços): ")
+    columns = atbs.split(",")
 
-    print(Read(conn_db, "*", tableName))
+    for column in columns:
+        if(Check_column(conn_db, tableName, column) == False):
+            input("Não é possível ler o dado " + column + " aperte ENTER para voltar ao menu")
+            return
+
+    data = Read(conn_db, atbs, tableName)
+
+    for item in data:
+        print("\nAtributo -- Valor")
+        print("------------------")
+        for i in range(len(item)):
+            print(str(columns[i]) + ": " + str(item[i]))
 
     input("\nDigite ENTER para retornar ao menu")
 
 if __name__ == "__main__":
+
+
     user = input("Digite o nome do usuario mysql: ")
     passwd = input("Digite a senha do usuario mysql: ")
 
@@ -183,21 +207,23 @@ if __name__ == "__main__":
         print("#                 #")
         print("# Sair      - 5   #")
         print("###################")
-        option = int(input("# Opção: "))
+        option = input("# Opção: ")
 
-        if(option == 1):
+        if(option == "1" or option == "Inserir"):
             clear()
             UserCreate(conn_db)
-        elif(option == 2):
+        elif(option == "2" or option == "Atualizar"):
             clear()
             UserUpdate(conn_db)
-        elif(option == 3):
+        elif(option == "3" or option == "Ler"):
             clear()
             UserRead(conn_db)
-        elif(option == 4):
+        elif(option == "4" or option == "Remover"):
             clear()
             UserDelete(conn_db)
-        elif(option == 5):
+        elif(option == "5" or option == "Sair"):
+            clear()
+        elif(option == "6" or option == "photo"):
             clear()
             STAY = False 
     
