@@ -19,11 +19,13 @@ def UserDelete(conn_db):
         input("Não é possível ler um dado do tipo desejado, aperte ENTER para voltar ao menu")
         return
 
+    print(GetIds(conn_db, tableName))
+
     keyValue = input("Digite o nome da chave do objeto que deseja deletar(chave de candidatura é o candidato, id da tabela para as demais tabelas): ")
 
-    fields = cursor.execute()
+    Delete(conn_db, tableName)
 
-    for field in fields:
+    for fTable in tables:
         cursor.execute("DELETE  FROM " + tableName + " WHERE " + field + 
             " (SELECT * FROM (SELECT " + field + " = " + fTable + ".id" + fTable + ") as p);")    
 

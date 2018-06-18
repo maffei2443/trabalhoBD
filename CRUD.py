@@ -41,13 +41,16 @@ def GetColumns(conn_db, table):
 
     return columns
 
-def Delete(conn_db, tabela):
+def Delete(conn_db, table):
     # No campo "passwd" coloca a senha correspondente ao seu MySQL
     cursor = conn_db.cursor()
+    tables = GetTables(conn_db)
+
+    for fTable in tables:
+        cursor.execute("DELETE  FROM " + table + " WHERE " + field + 
+            " (SELECT * FROM (SELECT " + field + " = " + fTable + ".id" + fTable + ") as p);")    
 
     # Monta e executa a Query
-    QueryString = "DELETE FROM " + tabela
-    cursor.execute(QueryString)
     dados = cursor.fetchall()
 
     return dados
