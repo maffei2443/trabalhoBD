@@ -46,6 +46,8 @@ def UserDelete(conn_db):
         return
 
     Delete(conn_db, tableName, id)    
+   
+    conn_db.commit()
 
 def UserCreate(conn_db):
     print("########## UserCreate ##########")
@@ -64,6 +66,8 @@ def UserCreate(conn_db):
     valuesNames = ""
     values = ""
     for column in columns:
+        if(column[5] == "auto_increment"):
+            continue
         if(column[2] == "YES"):
             option = input("Deseja inserir " + column[0] + "?(Y/N)")
             if(option != 'Y' and option != 'y'):
