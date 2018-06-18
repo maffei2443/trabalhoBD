@@ -7,6 +7,15 @@ from CRUD import *
 def clear():
     os.system("clear")
 
+def Show_ids(conn_db, tableName):
+    ids = GetIds(conn_db, tableName)
+
+    print("id -- Nome")
+    print("-----------")
+    for item in ids:
+        print(str(item[0]) + " -- " + item[1])
+
+
 def UserDelete(conn_db):
     print("UserDelete")
     tables = GetTables(conn_db)
@@ -19,15 +28,11 @@ def UserDelete(conn_db):
         input("Não é possível ler um dado do tipo desejado, aperte ENTER para voltar ao menu")
         return
 
-    print(GetIds(conn_db, tableName))
+    Show_ids(conn_db, tableName)
 
     keyValue = input("Digite o nome da chave do objeto que deseja deletar(chave de candidatura é o candidato, id da tabela para as demais tabelas): ")
 
-    Delete(conn_db, tableName)
-
-    for fTable in tables:
-        cursor.execute("DELETE  FROM " + tableName + " WHERE " + field + 
-            " (SELECT * FROM (SELECT " + field + " = " + fTable + ".id" + fTable + ") as p);")    
+    Delete(conn_db, tableName, keyValue)    
 
 def UserCreate(conn_db):
     print("########## UserCreate ##########")
@@ -77,13 +82,8 @@ def UserUpdate(conn_db):
         input("Não é possível atualizar um dado do tipo desejado, aperte ENTER para voltar ao menu")
         return
     
-    ids = GetIds(conn_db, tableName)
-
-    print("id -- Nome")
-    print("-----------")
-    for item in ids:
-        print(str(item[0]) + " -- " + item[1])
-
+    Show_ids(conn_db, tableName)
+    
     id = input("\nDigite o id do item que deseja atualizar: ")
 
     exist = False
