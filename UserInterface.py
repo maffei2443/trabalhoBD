@@ -3,8 +3,6 @@
 import MySQLdb
 import os
 from CRUD import *
-# import PIL.Image
-import base64
 
 def clear():
     os.system("clear")
@@ -104,7 +102,7 @@ def UserCreate(conn_db):
                     continue
 
             value = input("Digite um valor do tipo " + column[1] + " para " + column[0] + ": ")
-            
+
             if len(valuesNames):
                 valuesNames += ", "
             if len(values):
@@ -199,9 +197,10 @@ def UserSpecial(conn_db):
         cursor = conn_db.cursor()
 
         print("########## UserSpecial ##########")
-        print("#1 - Candidatos de um local     #")
-        print("#2 - Candidatos de um partido   #")
-        print("#3 - Partidos de uma coligacao  #")
+        print("#1 - Candidatos de um local                           #")
+        print("#2 - Candidatos de um partido                         #")
+        print("#3 - Partidos de uma coligacao                        #")
+        # print("#4 - Candidatos de um local e partido especificos     #")
 
         option = input("# Opção: ")
 
@@ -227,14 +226,23 @@ def UserSpecial(conn_db):
         
         elif(option == "3" or option == "Partidos de uma coligacao"):
             clear()
-            colig = input("Digite o nome do local: ")
+            colig = input("Digite o nome da coligacao: ")
             data = PartidoGetColig(conn_db, "Coligacao", colig)
             for item in data:
                 print("Id -- Nome")
                 print("----------------------")
                 print(str(item[0]) + "--" + str(item[1]))
             input("Digite ENTER para voltar ao menu")
-
+       
+        # elif(option == "4" or option == "Candidatos de um local e partido especificos"):
+        #     clear()
+        #     colig = input("Digite o nome do local: ")
+        #     data = PartidoGetColig(conn_db, "Coligacao", colig)
+        #     for item in data:
+        #         print("Id -- Nome")
+        #         print("----------------------")
+        #         print(str(item[0]) + "--" + str(item[1]))
+        #     input("Digite ENTER para voltar ao menu")
     except Exception as e:
         print(e)
         input("Digite algo para voltar ao menu")
