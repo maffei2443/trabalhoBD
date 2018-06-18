@@ -87,7 +87,7 @@ DROP TABLE IF EXISTS `mydb`.`Candidato` ;
 CREATE TABLE IF NOT EXISTS `mydb`.`Candidato` (
   `idCandidato` INT NOT NULL AUTO_INCREMENT,
   `nome` VARCHAR(45) NOT NULL,
-  `foto` BLOB NULL,
+  `foto` LONGBLOB NULL,
   `formacao` VARCHAR(45) NULL,
   `alfabetizacao` LONGTEXT NULL,
   `origem` INT NOT NULL,

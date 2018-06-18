@@ -1,0 +1,49 @@
+root
+q123q123
+y
+1
+Local
+"Rio de Janeiro"
+"RJ"
+n
+10000000
+1
+Local
+"Sao Paulo"
+"SP"
+n
+23000000
+1
+Local
+"Brasilia"
+"DF"
+n
+n
+1
+Partido
+"Partido Bacana"
+"PB"
+n
+n
+1
+Partido
+"Partido Supimpa"
+"PS"
+n
+n
+1
+Partido
+"Partido Legal"
+"PL"
+n
+n
+1
+Candidato
+"Luis"
+n
+n
+"Alfabetizado"
+3
+1
+n
+6

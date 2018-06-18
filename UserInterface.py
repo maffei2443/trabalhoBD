@@ -3,6 +3,12 @@
 import MySQLdb
 import os
 from CRUD import *
+import base64
+
+def get_img(img):
+    with open(img, "rb") as f:
+        ret = base64.b64encode(f.read())
+        return ret
 
 def clear():
     os.system("clear")
@@ -103,6 +109,10 @@ def UserCreate(conn_db):
 
             value = input("Digite um valor do tipo " + column[1] + " para " + column[0] + ": ")
 
+            if(column[1] == "longblob"):
+                value = "\"" + str(get_img(value)) + "\""
+                print("A")
+            
             if len(valuesNames):
                 valuesNames += ", "
             if len(values):
@@ -146,6 +156,11 @@ def UserUpdate(conn_db):
         if(Check_column(conn_db, tableName, name) == False):
             input("O atributo que se deseja atualizar nao existe, aperte ENTER para voltar ao menu")
             return
+
+
+        if(name == "foto"):
+            value = "\"" + str(get_img(value)) + "\""
+            print("A")
 
         Update(conn_db, tableName, name, value, id)
         input("Aperte ENTER para retornar ao menu")
@@ -211,7 +226,7 @@ def UserSpecial(conn_db):
             for item in data:
                 print("Id -- Nome")
                 print("----------------------")
-                print(str(item[0]) + "--" + str(item[1]))
+                print(str(item[0]) + "--" + str(item[1]) + "\n")
             input("Digite ENTER para voltar ao menu")
 
         elif(option == "2" or option == "Candidatos de um partido"):
@@ -221,7 +236,7 @@ def UserSpecial(conn_db):
             for item in data:
                 print("Id -- Nome")
                 print("----------------------")
-                print(str(item[0]) + "--" + str(item[1]))
+                print(str(item[0]) + "--" + str(item[1]) + "\n")
             input("Digite ENTER para voltar ao menu")
         
         elif(option == "3" or option == "Partidos de uma coligacao"):
@@ -231,7 +246,7 @@ def UserSpecial(conn_db):
             for item in data:
                 print("Id -- Nome")
                 print("----------------------")
-                print(str(item[0]) + "--" + str(item[1]))
+                print(str(item[0]) + "--" + str(item[1]) + "\n")
             input("Digite ENTER para voltar ao menu")
        
         # elif(option == "4" or option == "Candidatos de um local e partido especificos"):
