@@ -85,8 +85,13 @@ def UserUpdate(conn_db):
 
     id = input("\nDigite o id do item que deseja atualizar: ")
 
-    dados = GetAllTab(conn_db, table, id)
+    dados = GetAllTab(conn_db, tableName, id)
+    columns = GetColumns(conn_db, tableName)
 
+    for i in range(len(dados[0])):
+        print(str(columns[i][0]) + ": " + str(dados[0][i]))
+    
+    input("Aperte ENTER para retornar ao menu")
     conn_db.commit()
 
 def UserRead(conn_db):

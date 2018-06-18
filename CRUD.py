@@ -15,7 +15,11 @@ def GetIds(conn_db, table):
     return ids
 
 def GetAllTab(conn_db, table, id):
-    return ""
+    cursor = conn_db.cursor()
+
+    cursor.execute("SELECT * FROM " + table + " WHERE id" + table + "=" + id + ";")
+ 
+    return cursor.fetchall()
 
 def GetTables(conn_db):
     cursor = conn_db.cursor()
