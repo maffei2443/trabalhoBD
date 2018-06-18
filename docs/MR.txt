@@ -1,48 +1,107 @@
-candidato(
+Candidato(
 	nome <NOT NULL>,
 	idCandidato <PK>,
 	foto,
 	formacao,
 	alfabetizacao,
 	propostas,
-	origem <NOT NULL> <FK> <referencia local>,
-	partido <NOT NULL> <FK> <referencia partido>
+	origem <NOT NULL> <FK> <referencia Local>,
+	partido <NOT NULL> <FK> <referencia Partido>
 )
 
-local(
+Local(
 	idLocal <PK>,
 	nome <NOT NULL>,
-	unidade <NOT NULL>,
-	regiao,
-	estatistica_partidaria
+	regiao <NOT NULL>,
+	estatistica_partidaria,
+	populacao
 )
 
-cargo(
+Cargo(
 	idCargo <PK>,
-	nome <NOT NULL>,
+	TelefonePublico <NOT NULL>,
+	Endereco <NOT NULL>,
 	poder <NOT NULL>,
-	pre_req
+	prereq
 )
 
-partido(
+Partido(
 	idPartido <PK>,
 	nome <NOT NULL>,
 	sigla <NOT NULL> <UNIQUE>,
 	alinhamento,
-	coligacao <FK> <referencia coligacao>
+	coligacao <FK> <referencia Coligacao>
 )
 
-coligacao(
+Coligacao(
 	idColigacao <PK>,
 	nome <NOT NULL> <UNIQUE>,
 	majoritaria <NOT NULL>,
 	proporcional <NOT NULL>,
-	presidente <NOT NULL> <FK> <referencia candidato>
+	presidente <NOT NULL> <FK> <referencia Candidato>
 )
 
-candidatura(
+Candidatura(
+	idCandidatura <PK>,
 	intencao_de_votos,
-	candidato <PK> <FK> <referencia candidato>,
-	local <NOT NULL> <FK> <referencia local>,
-	cargo <NOT NULL> <FK> <referencia cargo>
+	candidato <NOT NULL> <FK> <referencia Candidato>,
+	local <NOT NULL> <FK> <referencia Local>,
+	cargo <NOT NULL> <FK> <referencia Cargo>
+)
+
+Presidente(
+	idPresidente <PK>,
+	Cargo <NOT NULL> <FK> <referencia Cargo>,
+	Vice <NOT NULL>
+)
+
+Governador(
+	idGovernador <PK>,
+	Cargo <NOT NULL> <FK> <referencia Cargo>,
+	Vice <NOT NULL>
+)
+
+Prefeito(
+	idPrefeito <PK>,
+	Cargo <NOT NULL> <FK> <referencia Cargo>,
+	Vice <NOT NULL>
+)
+
+
+Vereador(
+	idVereador <PK>,
+	Cargo <NOT NULL> <FK> <referencia Cargo>,
+)
+
+Deputado(
+	idDeputado <PK>,
+	Cargo <NOT NULL> <FK> <referencia Cargo>,
+)
+
+Senador(
+	idSenador <PK>,
+	Cargo <NOT NULL> <FK> <referencia Cargo>,
+)
+
+Municipio(
+	idMunicipio <PK>,
+	Local <NOT NULL> <FK> <referencia Local>,
+	Estado <NOT NULL> <FK> <referencia Estado>,
+)
+
+RegiaoAdm(
+	idRegiaoAdm <PK>,
+	Local <NOT NULL> <FK> <referencia Local>,
+	Estado <NOT NULL> <FK> <referencia Estado>,
+)
+
+Estado(
+	idEstado <PK>,
+	Local <NOT NULL> <FK> <referencia Local>,
+	Sigla <NOT NULL>
+)
+
+Federacao(
+	idFederacao <PK>,
+	Local <NOT NULL> <FK> <referencia Local>,
 )
