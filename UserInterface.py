@@ -16,7 +16,7 @@ def UserCreate(conn_db):
     for table in tables:
         print("-- " + table)
 
-    tableName = input("\nDigite o nome da tabela na qual deseja inserir dados: ")
+    tableName = input("\nDigite o nome do que deseja inserir: ")
     
     columns = GetColumns(conn_db, tableName)
 
@@ -24,10 +24,12 @@ def UserCreate(conn_db):
     values = ""
     for column in columns:
         if(column[2] == "YES"):
-            option = input("Deseja manter o valor da coluna " + column[0] + " nulo?(Y/N)")
-            if(option == 'Y' or option == 'y'):
+            option = input("Deseja inserir o valor de " + column[0] + "?(Y/N)")
+            if(option != 'Y' and option != 'y'):
                 continue
-        value = input("Digite um valor do tipo " + column[1] + " para a coluna " + column[0] + ": ")
+        value = input("Digite um valor do tipo " + column[1] + " para " + column[0] + ": ")
+        if(column[1].find("varchar") != -1):
+            value = "\"" + value + "\""
         if len(valuesNames):
             valuesNames += ", "
         if len(values):
@@ -49,9 +51,9 @@ def UserRead(conn_db):
     for table in tables:
         print("-- " + table)
 
-    tableName = input("\nDigite o nome da tabela da qual deseja ler dados: ")
+    tableName = input("\nDigite o nome do que deseja ler ")
 
-    Read(conn_db, "*", tableName)
+    print(Read(conn_db, "*", tableName))
 
     input("\n Digite enter para continuar")
 
