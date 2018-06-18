@@ -16,9 +16,14 @@ def UserCreate(conn_db):
     for table in tables:
         print("-- " + table)
 
-    tableName = input("\nDigite o nome do que deseja inserir: ")
+    tableName = input("\nDigite o nome do tipo de dado que deseja inserir: ")
+
+    if(tableName not in tables):
+        input("Não é possível inserir um dado do tipo desejado, aperte ENTER para voltar ao menu")
+        return
     
     columns = GetColumns(conn_db, tableName)
+
 
     valuesNames = ""
     values = ""
@@ -27,9 +32,12 @@ def UserCreate(conn_db):
             option = input("Deseja inserir o valor de " + column[0] + "?(Y/N)")
             if(option != 'Y' and option != 'y'):
                 continue
+
         value = input("Digite um valor do tipo " + column[1] + " para " + column[0] + ": ")
-        if(column[1].find("varchar") != -1):
+        
+        if(column[1].find("INT") == -1):
             value = "\"" + value + "\""
+        
         if len(valuesNames):
             valuesNames += ", "
         if len(values):
@@ -39,6 +47,8 @@ def UserCreate(conn_db):
         values += value
 
     Insert(conn_db, tableName, valuesNames, values)
+
+    conn_db.commit()
 
 def UserUpdate(conn_db):
     print("UserUpdate")
@@ -51,11 +61,15 @@ def UserRead(conn_db):
     for table in tables:
         print("-- " + table)
 
-    tableName = input("\nDigite o nome do que deseja ler ")
+    tableName = input("\nDigite o nome do tipo de dado que deseja ler: ")
+
+    if(tableName not in tables):
+        input("Não é possível ler um dado do tipo desejado, aperte ENTER para voltar ao menu")
+        return
 
     print(Read(conn_db, "*", tableName))
 
-    input("\n Digite enter para continuar")
+    input("\nDigite enter para continuar")
 
 if __name__ == "__main__":
     user = input("Digite o nome do usuario mysql: ")
@@ -65,7 +79,7 @@ if __name__ == "__main__":
     # localmente, pode-se atribuir ao parametro host o valor "localhost"
     conn_db = MySQLdb.connect(host="localhost", port=3306, user=user, passwd=passwd)
 
-    op = input("Deseja criar/resetar o banco? (Y/N)")
+    op = input("Deseja criar/resetar o banco? (Y/N) ")
 
     if(op == "Y" or op == "y"):
         CreateDb(conn_db)
