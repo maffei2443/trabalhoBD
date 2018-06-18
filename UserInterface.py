@@ -23,10 +23,9 @@ def UserDelete(conn_db):
 
     fields = cursor.execute()
 
-    for field in 
+    for field in fields:
         cursor.execute("DELETE  FROM " + tableName + " WHERE " + field + 
             " (SELECT * FROM (SELECT " + field + " = " + fTable + ".id" + fTable + ") as p);")    
-
 
 def UserCreate(conn_db):
     print("########## UserCreate ##########")
@@ -42,19 +41,15 @@ def UserCreate(conn_db):
     
     columns = GetColumns(conn_db, tableName)
 
-
     valuesNames = ""
     values = ""
     for column in columns:
         if(column[2] == "YES"):
-            option = input("Deseja inserir o valor de " + column[0] + "?(Y/N)")
+            option = input("Deseja inserir " + column[0] + "?(Y/N)")
             if(option != 'Y' and option != 'y'):
                 continue
 
         value = input("Digite um valor do tipo " + column[1] + " para " + column[0] + ": ")
-        
-        #if(column[1].find("INT") == -1):
-        #   value = "\"" + value + "\""
         
         if len(valuesNames):
             valuesNames += ", "
@@ -89,11 +84,22 @@ def UserUpdate(conn_db):
 
     id = input("\nDigite o id do item que deseja atualizar: ")
 
+    exist = False
+    for item in ids:
+        if(id == str(item[0])):
+            exist = True
+
+    if(exist == False):
+        input("O id que se deseja atualizar nao existe, aperte ENTER para voltar ao menu")
+        return
+
     data = GetAllTab(conn_db, tableName, id)
     columns = GetColumns(conn_db, tableName)
 
+    print("\nNome do atributo -- Valor")
+    print("-------------------------")
     for i in range(len(data[0])):
-        print(str(columns[i][0]) + ": " + str(data[0][i]))
+        print(str(columns[i][0]) + " -- " + str(data[0][i]))
     
     name, value = input("Digite o nome do valor e o novo valor que deseja atribuir separados por espaco: ").split(" ")
 
@@ -125,7 +131,7 @@ def UserRead(conn_db):
 
     print(Read(conn_db, "*", tableName))
 
-    input("\nDigite enter para continuar")
+    input("\nDigite ENTER para retornar ao menu")
 
 if __name__ == "__main__":
     user = input("Digite o nome do usuario mysql: ")
