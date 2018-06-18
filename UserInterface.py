@@ -85,12 +85,24 @@ def UserUpdate(conn_db):
 
     id = input("\nDigite o id do item que deseja atualizar: ")
 
-    dados = GetAllTab(conn_db, tableName, id)
+    data = GetAllTab(conn_db, tableName, id)
     columns = GetColumns(conn_db, tableName)
 
-    for i in range(len(dados[0])):
-        print(str(columns[i][0]) + ": " + str(dados[0][i]))
+    for i in range(len(data[0])):
+        print(str(columns[i][0]) + ": " + str(data[0][i]))
     
+    name, value = input("Digite o nome do valor e o novo valor que deseja atribuir separados por espaco: ").split(" ")
+
+    exist = False
+    for column in columns:
+        if(column[0] == name):
+            exist = True
+
+    if(exist == False):
+        input("O atributo que se deseja atualizar nao existe, aperte ENTER para voltar ao menu")
+        return
+
+    Update(conn_db, tableName, name, value, id)
     input("Aperte ENTER para retornar ao menu")
     conn_db.commit()
 
