@@ -2,22 +2,45 @@
 # -*- coding: UTF-8 -*-
 import MySQLdb
 import os
-from CriaBanco import CriaBanco
-from Delete import Delete
-from Read import Read
-from Insert import Insert
+from CRUD import *
 
 def clear():
     os.system("clear")
 
-def UserDelete():
+def UserDelete(conn_db):
     print("UserDelete")
-def UserCreate():
-    print("UserCreate")
-    Insert(conn_db)
-def UserUpdate():
+
+def UserCreate(conn_db):
+    print("########## UserCreate ##########")
+    tables = GetTables(conn_db)
+    for table in tables:
+        print("-- " + table)
+
+    print("\nDigite o nome da tabela na qual deseja inserir dados: ")
+    tableName = input()
+    
+    columns = GetColumns(conn_db, tableName)
+
+    valuesNames = ""
+    values = ""
+    for column in columns:
+        print("Digite um valor do tipo " + column[1] + " para a coluna " + column[0] + ": ")
+        value = input()
+        if len(valuesNames):
+            valuesNames += ", "
+        if len(values):
+            values += ", "
+        
+        valuesNames += column[0]
+        values += value
+
+    Insert(conn_db, tableName, valuesNames, values)
+
+def UserUpdate(conn_db):
     print("UserUpdate")
-def UserRead():
+    Update(conn_db)
+
+def UserRead(conn_db):
     print("UserRead")
 
 if __name__ == "__main__":
@@ -33,8 +56,8 @@ if __name__ == "__main__":
     print("Deseja criar/resetar o banco? (Y/N)")
     op = input()
 
-    if(op == "Y"):
-        CriaBanco(conn_db)
+    if(op == "Y" or op == "y"):
+        CreateDb(conn_db)
 
     conn_db = MySQLdb.connect(host="localhost", db="mydb", port=3306, user=user, passwd=passwd)
 
@@ -55,16 +78,16 @@ if __name__ == "__main__":
 
         if(option == 1):
             clear()
-            UserCreate()
+            UserCreate(conn_db)
         elif(option == 2):
             clear()
-            UserUpdate()
+            UserUpdate(conn_db)
         elif(option == 3):
             clear()
             UserRead()
         elif(option == 4):
             clear()
-            UserDelete()
+            UserDelete(conn_db)
         elif(option == 5):
             clear()
             STAY = False 
