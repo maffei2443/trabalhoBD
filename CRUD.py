@@ -41,6 +41,12 @@ def GetColumns(conn_db, table):
 
     return columns
 
+def CandidatoGetSpecial(conn_db, table, value):
+    cursor = conn_db.cursor()
+    
+    cursor.execute("select Candidato.idCandidato, Candidato.nome from Candidato inner join " + table + " on Candidato.origem=" + table + ".id" + table + " and " + table + ".Nome=" + value)
+
+    return cursor.fetchall()
 def Delete(conn_db, table, value):
     # No campo "passwd" coloca a senha correspondente ao seu MySQL
     cursor = conn_db.cursor()

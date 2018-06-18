@@ -204,15 +204,25 @@ def UserSpecial(conn_db):
 
         option = input("# Opção: ")
 
-        if(option == "1" or option == "Inserir"):
+        if(option == "1" or option == "Candidatos de um local"):
             clear()
-            local = input("Digite o local")
-            cursor.execute("select Candidato.idCandidato, Candidato.nome from Candidato inner join Local on Candidato.origem=Local.idLocal and Local.Nome=" + local)
-            input(cursor.fetchall())
+            local = input("Digite o nome do local: ")
+            data = CandidatoGetSpecial(conn_db, "Local", local)
+            for item in data:
+                print("Id -- Nome")
+                print("----------------------")
+                print(str(item[0]) + "--" + str(item[1]))
+            input("Digite ENTER para voltar ao menu")
 
-        elif(option == "2" or option == "Atualizar"):
+        elif(option == "2" or option == "Candidatos de um partido"):
             clear()
-            UserUpdate(conn_db)
+            partido = input("Digite o nome do partido: ")
+            data = CandidatoGetSpecial(conn_db, "Partido", partido)
+            for item in data:
+                print("Id -- Nome")
+                print("----------------------")
+                print(str(item[0]) + "--" + str(item[1]))
+            input("Digite ENTER para voltar ao menu")
 
     except Exception as e:
         print(e)
