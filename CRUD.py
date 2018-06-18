@@ -19,6 +19,7 @@ def GetColumns(conn_db, table):
     cursor.execute("SHOW columns FROM " + table)
     
     columns = cursor.fetchall()
+
     return columns
 
 def Delete(conn_db, tabela):
@@ -43,7 +44,7 @@ def Read(conn_db, coluna, tabela):
     cursor = conn_db.cursor()
 
     # Monta e executa a Query
-    QueryString = "SELECT " + coluna + " FROM " + tabela + ";"
+    QueryString = "SELECT " + coluna + " FROM " + tabela
     cursor.execute(QueryString)
     dados = cursor.fetchall()
 
@@ -53,43 +54,35 @@ def Update(conn_db):
     # No campo "passwd" coloca a senha correspondente ao seu MySQL
     cursor = conn_db.cursor()
 
-    cursor.execute("SHOW TABLES")
-    tables = cursor.fetchall()
-    for table in tables:
-        print(table[0])
+    tables = GetTables(conn_db)
+    for i in tables:
+        print(i)
 
     print("Digite o nome da tabela na qual deseja atualizar os dados: ")
     tableName = input()
     cursor.execute("SELECT * FROM " + tableName)
     print("\n")
 
-    print(cursor.fetchall())
-    columns = cursor.fetchall()
+    obs = cursor.fetchall()
 
+    for i in obs:
+        print(i)
 
-    for column in columns:
-        print(column[0])
+    print("Digite o nome do campo no qual deseja atualizar: ")
+    fieldName = input()
 
-    print("Digite o nome dos campos nos quais deseja atualizar os dados: ")
-    fieldsName = input().split(" ")
+    print("Digite o novo valor: ")
+    newName = input()
+    
+    cursor.execute("SELECT " + fieldName + " FROM " + tableName)
 
-    values = []
-    for field in fieldsName:
-        print("Digite um novo valor para o campo " + field + ": ")
-        values.append( input())
+    print("Digite o nome da chave do objeto que deseja atualizar: ")
+    keyValue = input()
 
-    for v in values:
-        print(v + "\n")
+    keyName = "id" + tableName
 
     # Monta e executa a Query
-    QueryString = "UPDATE " + tableName + " SET "
-
-    i = 0
-    for field in fieldsName:
-        QueryString += field + " = " + values[i]
-        i += 1
-        if len(values):
-            QueryString += ", "
+    QueryString = "UPDATE " + tableName + " SET " + fieldName + " = " + newName + " WHERE " + keyName + " = " + keyValue
 
     cursor.execute(QueryString)
     dados = cursor.fetchall()
