@@ -3,7 +3,7 @@
 import MySQLdb
 import os
 from CRUD import *
-import PIL.Image
+# import PIL.Image
 import base64
 
 def clear():
@@ -48,135 +48,151 @@ def Check_column(conn_db, tableName, name):
     for column in columns:
         if(column[0] == name):
             exist = True
-            
     return exist
 
 def UserDelete(conn_db):
-    print("UserDelete")
-    tables = GetTables(conn_db)
-    for table in tables:
-        print("-- " + table)
+    try:
+        print("UserDelete")
+        tables = GetTables(conn_db)
+        for table in tables:
+            print("-- " + table)
 
-    tableName = input("\nDigite o nome do tipo de dado que deseja deletar: ")
+        tableName = input("\nDigite o nome do tipo de dado que deseja deletar: ")
 
-    if(tableName not in tables):
-        input("Não é possível deletar um dado do tipo desejado, aperte ENTER para voltar ao menu")
-        return
-
-    Show_ids(conn_db, tableName)
-
-    id = input("Digite o nome da chave do objeto que deseja deletar(chave de candidatura é o candidato, id da tabela para as demais tabelas): ")
-
-    if(Check_ids(conn_db, tableName, id) == False):
-        input("O id que se deseja deletar nao existe, aperte ENTER para voltar ao menu")
-        return
-
-    Delete(conn_db, tableName, id)    
-   
-    conn_db.commit()
-
-def UserCreate(conn_db):
-    print("########## UserCreate ##########")
-    tables = GetTables(conn_db)
-    for table in tables:
-        print("-- " + table)
-
-    tableName = input("\nDigite o nome do tipo de dado que deseja inserir: ")
-
-    if(tableName not in tables):
-        input("Não é possível inserir um dado do tipo desejado, aperte ENTER para voltar ao menu")
-        return
-    
-    columns = GetColumns(conn_db, tableName)
-
-    valuesNames = ""
-    values = ""
-    for column in columns:
-        if(column[5] == "auto_increment"):
-            continue
-        if(column[2] == "YES"):
-            option = input("Deseja inserir " + column[0] + "?(Y/N)")
-            if(option != 'Y' and option != 'y'):
-                continue
-
-        value = input("Digite um valor do tipo " + column[1] + " para " + column[0] + ": ")
-        
-        if len(valuesNames):
-            valuesNames += ", "
-        if len(values):
-            values += ", "
-        
-        valuesNames += column[0]
-        values += value
-
-    Insert(conn_db, tableName, valuesNames, values)
-
-    conn_db.commit()
-
-def UserUpdate(conn_db):
-    print("########## UserUpdate ##########")
-    tables = GetTables(conn_db)
-    for table in tables:
-        print("-- " + table)
-
-    tableName = input("\nDigite o nome do tipo de dado que deseja atualizar: ")
-
-    if(tableName not in tables):
-        input("Não é possível atualizar um dado do tipo desejado, aperte ENTER para voltar ao menu")
-        return
-    
-    Show_ids(conn_db, tableName)
-    
-    id = input("\nDigite o id do item que deseja atualizar: ")
-
-    if(Check_ids(conn_db, tableName, id) == False):
-        input("O id que se deseja atualizar nao existe, aperte ENTER para voltar ao menu")
-        return
-
-    Show_atb(conn_db, tableName, id)
-    
-    name, value = input("Digite o nome do valor e o novo valor que deseja atribuir separados por espaco: ").split(" ")
-
-    if(Check_column(conn_db, tableName, name) == False):
-        input("O atributo que se deseja atualizar nao existe, aperte ENTER para voltar ao menu")
-        return
-
-    Update(conn_db, tableName, name, value, id)
-    input("Aperte ENTER para retornar ao menu")
-    conn_db.commit()
-
-def UserRead(conn_db):
-    print("########## UserRead ##########")
-
-    tables = GetTables(conn_db)
-    for table in tables:
-        print("-- " + table)
-
-    tableName = input("\nDigite o nome do tipo de dado que deseja ler: ")
-
-    if(tableName not in tables):
-        input("Não é possível ler um dado do tipo desejado, aperte ENTER para voltar ao menu")
-        return
-
-    Show_columns(conn_db, tableName)
-
-    atbs = input("Digite os nomes dos atributos que deseja ver separados por virgula (sem espaços): ")
-    columns = atbs.split(",")
-
-    for column in columns:
-        if(Check_column(conn_db, tableName, column) == False):
-            input("Não é possível ler o dado " + column + " aperte ENTER para voltar ao menu")
+        if(tableName not in tables):
+            input("Não é possível deletar um dado do tipo desejado, aperte ENTER para voltar ao menu")
             return
 
-    data = Read(conn_db, atbs, tableName)
+        Show_ids(conn_db, tableName)
 
-    for item in data:
-        print("\nAtributo -- Valor")
-        print("------------------")
-        for i in range(len(item)):
-            print(str(columns[i]) + ": " + str(item[i]))
+        id = input("Digite o nome da chave do objeto que deseja deletar(chave de candidatura é o candidato, id da tabela para as demais tabelas): ")
 
-    input("\nDigite ENTER para retornar ao menu")
+        if(Check_ids(conn_db, tableName, id) == False):
+            input("O id que se deseja deletar nao existe, aperte ENTER para voltar ao menu")
+            return
+
+        Delete(conn_db, tableName, id)    
+       
+        conn_db.commit()
+    except Exception as e:
+        print(e)
+        input("Digite algo para voltar ao menu")
+
+def UserCreate(conn_db):
+    try:
+        print("########## UserCreate ##########")
+        tables = GetTables(conn_db)
+        for table in tables:
+            print("-- " + table)
+
+        tableName = input("\nDigite o nome do tipo de dado que deseja inserir: ")
+
+        if(tableName not in tables):
+            input("Não é possível inserir um dado do tipo desejado, aperte ENTER para voltar ao menu")
+            return
+        
+        columns = GetColumns(conn_db, tableName)
+
+        valuesNames = ""
+        values = ""
+        for column in columns:
+            if(column[5] == "auto_increment"):
+                continue
+            if(column[2] == "YES"):
+                option = input("Deseja inserir " + column[0] + "?(Y/N)")
+                if(option != 'Y' and option != 'y'):
+                    continue
+
+            value = input("Digite um valor do tipo " + column[1] + " para " + column[0] + ": ")
+            
+            if len(valuesNames):
+                valuesNames += ", "
+            if len(values):
+                values += ", "
+            
+            valuesNames += column[0]
+            values += value
+
+        Insert(conn_db, tableName, valuesNames, values)
+
+        conn_db.commit()
+    except Exception as e:
+        print(e)
+        input("Digite algo para voltar ao menu")
+
+def UserUpdate(conn_db):
+    try:
+        print("########## UserUpdate ##########")
+        tables = GetTables(conn_db)
+        for table in tables:
+            print("-- " + table)
+
+        tableName = input("\nDigite o nome do tipo de dado que deseja atualizar: ")
+
+        if(tableName not in tables):
+            input("Não é possível atualizar um dado do tipo desejado, aperte ENTER para voltar ao menu")
+            return
+        
+        Show_ids(conn_db, tableName)
+        
+        id = input("\nDigite o id do item que deseja atualizar: ")
+
+        if(Check_ids(conn_db, tableName, id) == False):
+            input("O id que se deseja atualizar nao existe, aperte ENTER para voltar ao menu")
+            return
+
+        Show_atb(conn_db, tableName, id)
+        
+        name, value = input("Digite o nome do valor e o novo valor que deseja atribuir separados por espaco: ").split(" ")
+
+        if(Check_column(conn_db, tableName, name) == False):
+            input("O atributo que se deseja atualizar nao existe, aperte ENTER para voltar ao menu")
+            return
+
+        Update(conn_db, tableName, name, value, id)
+        input("Aperte ENTER para retornar ao menu")
+        conn_db.commit()
+    except Exception as e:
+        print(e)
+        input("Digite algo para voltar ao menu")
+
+def UserRead(conn_db):
+    try:
+        print("########## UserRead ##########")
+
+        tables = GetTables(conn_db)
+        for table in tables:
+            print("-- " + table)
+
+        tableName = input("\nDigite o nome do tipo de dado que deseja ler: ")
+
+        if(tableName not in tables):
+            input("Não é possível ler um dado do tipo desejado, aperte ENTER para voltar ao menu")
+            return
+
+        Show_columns(conn_db, tableName)
+
+        atbs = input("Digite os nomes dos atributos que deseja ver separados por virgula (sem espaços): ")
+        columns = atbs.split(",")
+
+        for column in columns:
+            if(Check_column(conn_db, tableName, column) == False):
+                input("Não é possível ler o dado " + column + " aperte ENTER para voltar ao menu")
+                return
+
+        data = Read(conn_db, atbs, tableName)
+
+        for item in data:
+            print("\nAtributo -- Valor")
+            print("------------------")
+            for i in range(len(item)):
+                print(str(columns[i]) + ": " + str(item[i]))
+
+        input("\nDigite ENTER para retornar ao menu")
+    except Exception as e:
+        print(e)
+        input("Digite algo para voltar ao menu")
+
 
 if __name__ == "__main__":
 
@@ -186,14 +202,14 @@ if __name__ == "__main__":
 
     # Cria conexao com o banco. No caso, caso voce possua uma instancia do MySQL rodando
     # localmente, pode-se atribuir ao parametro host o valor "localhost"
-    conn_db = MySQLdb.connect(host="localhost", port=3306, user=user, passwd=passwd)
+    conn_db = MySQLdb.connect(host="172.17.0.2", port=3306, user=user, passwd=passwd)
 
     op = input("Deseja criar/resetar o banco? (Y/N) ")
 
     if(op == "Y" or op == "y"):
         CreateDb(conn_db)
 
-    conn_db = MySQLdb.connect(host="localhost", db="mydb", port=3306, user=user, passwd=passwd)
+    conn_db = MySQLdb.connect(host="172.17.0.2", db="mydb", port=3306, user=user, passwd=passwd)
 
     STAY = True
 
