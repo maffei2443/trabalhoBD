@@ -5,7 +5,7 @@ import os
 from CRUD import *
 import base64
 
-def get_img(img):
+def GetImg(img):
     with open(img, "rb") as f:
         ret = base64.b64encode(f.read())
         return ret
@@ -13,7 +13,7 @@ def get_img(img):
 def clear():
     os.system("clear")
 
-def Show_atb(conn_db, tableName, id):
+def ShowAtb(conn_db, tableName, id):
     data = GetAllTab(conn_db, tableName, id)
     columns = GetColumns(conn_db, tableName)
 
@@ -22,13 +22,13 @@ def Show_atb(conn_db, tableName, id):
     for i in range(len(data[0])):
         print(str(columns[i][0]) + " -- " + str(data[0][i]))
 
-def Show_columns(conn_db, tableName):
+def ShowColumns(conn_db, tableName):
     columns = GetColumns(conn_db, tableName)
     print("Atributos de " +  tableName + ":")
     for column in columns:
         print(column[0])
 
-def Show_ids(conn_db, tableName):
+def ShowIds(conn_db, tableName):
     ids = GetIds(conn_db, tableName)
 
     print("id -- Nome")
@@ -36,7 +36,7 @@ def Show_ids(conn_db, tableName):
     for item in ids:
         print(str(item[0]) + " -- " + item[1])
 
-def Check_ids(conn_db, tableName, id):
+def CheckIds(conn_db, tableName, id):
     ids = GetIds(conn_db, tableName)    
 
     exist = False
@@ -45,7 +45,7 @@ def Check_ids(conn_db, tableName, id):
             exist = True
     return exist
 
-def Check_column(conn_db, tableName, name):
+def CheckColumn(conn_db, tableName, name):
     columns = GetColumns(conn_db, tableName)
     
     exist = False
@@ -67,11 +67,11 @@ def UserDelete(conn_db):
             input("Não é possível deletar um dado do tipo desejado, aperte ENTER para voltar ao menu")
             return
 
-        Show_ids(conn_db, tableName)
+        ShowIds(conn_db, tableName)
 
         id = input("Digite o nome da chave do objeto que deseja deletar(chave de candidatura é o candidato, id da tabela para as demais tabelas): ")
 
-        if(Check_ids(conn_db, tableName, id) == False):
+        if(CheckIds(conn_db, tableName, id) == False):
             input("O id que se deseja deletar nao existe, aperte ENTER para voltar ao menu")
             return
 
@@ -110,7 +110,7 @@ def UserCreate(conn_db):
             value = input("Digite um valor do tipo " + column[1] + " para " + column[0] + ": ")
 
             if(column[1] == "longblob"):
-                value = "\"" + str(get_img(value)) + "\""
+                value = "\"" + str(GetImg(value)) + "\""
                 print("A")
             
             if len(valuesNames):
@@ -141,25 +141,25 @@ def UserUpdate(conn_db):
             input("Não é possível atualizar um dado do tipo desejado, aperte ENTER para voltar ao menu")
             return
         
-        Show_ids(conn_db, tableName)
+        ShowIds(conn_db, tableName)
         
         id = input("\nDigite o id do item que deseja atualizar: ")
 
-        if(Check_ids(conn_db, tableName, id) == False):
+        if(CheckIds(conn_db, tableName, id) == False):
             input("O id que se deseja atualizar nao existe, aperte ENTER para voltar ao menu")
             return
 
-        Show_atb(conn_db, tableName, id)
+        ShowAtb(conn_db, tableName, id)
         
         name, value = input("Digite o nome do valor e o novo valor que deseja atribuir separados por espaco: ").split(" ")
 
-        if(Check_column(conn_db, tableName, name) == False):
+        if(CheckColumn(conn_db, tableName, name) == False):
             input("O atributo que se deseja atualizar nao existe, aperte ENTER para voltar ao menu")
             return
 
 
         if(name == "foto"):
-            value = "\"" + str(get_img(value)) + "\""
+            value = "\"" + str(GetImg(value)) + "\""
             print("A")
 
         Update(conn_db, tableName, name, value, id)
@@ -183,13 +183,13 @@ def UserRead(conn_db):
             input("Não é possível ler um dado do tipo desejado, aperte ENTER para voltar ao menu")
             return
 
-        Show_columns(conn_db, tableName)
+        ShowColumns(conn_db, tableName)
 
         atbs = input("Digite os nomes dos atributos que deseja ver separados por virgula (sem espaços): ")
         columns = atbs.split(",")
 
         for column in columns:
-            if(Check_column(conn_db, tableName, column) == False):
+            if(CheckColumn(conn_db, tableName, column) == False):
                 input("Não é possível ler o dado " + column + " aperte ENTER para voltar ao menu")
                 return
 
