@@ -21,8 +21,11 @@ def UserDelete(conn_db):
 
     keyValue = input("Digite o nome da chave do objeto que deseja deletar(chave de candidatura é o candidato, id da tabela para as demais tabelas): ")
 
+    fields = cursor.execute()
 
-    cursor.execute("DELETE  FROM " + tableName + " WHERE " + field + " (SELECT * FROM (SELECT " + field + "")    
+    for field in 
+        cursor.execute("DELETE  FROM " + tableName + " WHERE " + field + 
+            " (SELECT * FROM (SELECT " + field + " = " + fTable + ".id" + fTable + ") as p);")    
 
 
 def UserCreate(conn_db):
