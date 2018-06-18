@@ -195,23 +195,28 @@ def UserRead(conn_db):
 
 
 def UserSpecial(conn_db):
-    cursor = conn_db.cursor()
+    try:
+        cursor = conn_db.cursor()
 
-    print("########## UserSpeial ##########")
-    print("#1 - Candidatos de um local     #")
-    print("#2 - Candidatos de um partido   #")
+        print("########## UserSpeial ##########")
+        print("#1 - Candidatos de um local     #")
+        print("#2 - Candidatos de um partido   #")
 
-    option = input("# Opção: ")
+        option = input("# Opção: ")
 
-    if(option == "1" or option == "Inserir"):
-        clear()
-        local = input("Digite o local")
-        cursor.execute("select Candidato.idCandidato, Candidato.nome from Candidato inner join Local on Candidato.origem=Local.idLocal and Local.Nome=" + local)
-        input(cursor.fetchall())
+        if(option == "1" or option == "Inserir"):
+            clear()
+            local = input("Digite o local")
+            cursor.execute("select Candidato.idCandidato, Candidato.nome from Candidato inner join Local on Candidato.origem=Local.idLocal and Local.Nome=" + local)
+            input(cursor.fetchall())
 
-    elif(option == "2" or option == "Atualizar"):
-        clear()
-        UserUpdate(conn_db)
+        elif(option == "2" or option == "Atualizar"):
+            clear()
+            UserUpdate(conn_db)
+
+    except Exception as e:
+        print(e)
+        input("Digite algo para voltar ao menu")
 
 if __name__ == "__main__":
 
@@ -221,14 +226,14 @@ if __name__ == "__main__":
 
     # Cria conexao com o banco. No caso, caso voce possua uma instancia do MySQL rodando
     # localmente, pode-se atribuir ao parametro host o valor "localhost"
-    conn_db = MySQLdb.connect(host="172.17.0.2", port=3306, user=user, passwd=passwd)
+    conn_db = MySQLdb.connect(host="localhost", port=3306, user=user, passwd=passwd)
 
     op = input("Deseja criar/resetar o banco? (Y/N) ")
 
     if(op == "Y" or op == "y"):
         CreateDb(conn_db)
 
-    conn_db = MySQLdb.connect(host="172.17.0.2", db="mydb", port=3306, user=user, passwd=passwd)
+    conn_db = MySQLdb.connect(host="localhost", db="mydb", port=3306, user=user, passwd=passwd)
 
     STAY = True
 
