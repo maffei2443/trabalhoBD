@@ -2,6 +2,21 @@
 # -*- coding: UTF-8 -*-
 import MySQLdb
 
+def GetIds(conn_db, table):
+    cursor = conn_db.cursor()
+    
+    if(table != "Candidatura"):
+        cursor.execute("SELECT id" + table + ", nome FROM " + table + ";")
+    else:
+        cursor.execute("SELECT id" + table + ",candidato FROM " + table + ";")
+
+    ids = cursor.fetchall()
+    
+    return ids
+
+def GetAllTab(conn_db, table, id):
+    return ""
+
 def GetTables(conn_db):
     cursor = conn_db.cursor()
     
@@ -75,17 +90,15 @@ def Update(conn_db):
 
     fieldName = input("Digite o nome do campo no qual deseja atualizar: ")
 
-
-
     newName = input("Digite o novo valor: ")
     
     cursor.execute("SELECT " + fieldName + " FROM " + tableName)
 
     keyValue = input("Digite o nome da chave do objeto que deseja atualizar(chave de candidatura é o candidato, id da tabela para as demais tabelas): ")
 
-    if tableName == "Candidatura"
+    if tableName == "Candidatura":
         keyName = "candidato"
-    else
+    else:
         keyName = "id" + tableName
 
 

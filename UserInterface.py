@@ -65,8 +65,29 @@ def UserCreate(conn_db):
     conn_db.commit()
 
 def UserUpdate(conn_db):
-    print("UserUpdate")
-    Update(conn_db)
+    print("########## UserUpdate ##########")
+    tables = GetTables(conn_db)
+    for table in tables:
+        print("-- " + table)
+
+    tableName = input("\nDigite o nome do tipo de dado que deseja atualizar: ")
+
+    if(tableName not in tables):
+        input("Não é possível atualizar um dado do tipo desejado, aperte ENTER para voltar ao menu")
+        return
+    
+    ids = GetIds(conn_db, tableName)
+
+    print("id -- Nome")
+    print("-----------")
+    for item in ids:
+        print(str(item[0]) + " -- " + item[1])
+
+    id = input("\nDigite o id do item que deseja atualizar: ")
+
+    dados = GetAllTab(conn_db, table, id)
+
+    conn_db.commit()
 
 def UserRead(conn_db):
     print("########## UserRead ##########")
