@@ -1,16 +1,26 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 import MySQLdb
+import re
 class dao(object):
     """Data access object. Realiza todo o acesso ao banco de dados."""
-    def conn_db(host='localhost', db='mydb', port=3306, user='root', passwd='root'):
+    def __init__(self):
+        self.conn = ''
+
+    def __conn_db(self, db=''):
+        self.conn_db( host='172.17.0.2', db=db, port=3306, user='root', passwd='root')        
+
+    def conn_db(self, host='localhost', db='', port=3306, user='root', passwd='root'):
         try:
-            return  MySQLdb.connect(host=host, db='mydb', port=3306, user=user, passwd=passwd)    
+            if(db):
+                self.conn = MySQLdb.connect(host=host, db='mydb', port=3306, user=user, passwd=passwd)    
+            else:
+                self.conn = MySQLdb.connect(host=host, port=3306, user=user, passwd=passwd)    
         except Exception as e:
-            print("Não foi possível estabelecer a conexão com o banco")
+            print("Não foi possível estabelecer a conexão com o banco.")
             return e
-    def GetIds(conn_db, table):
-        cursor = conn_db.cursor()
+    def GetIds(self, table):
+        cursor = self.conn.cursor()
         
         if(table != "Candidatura"):
             cursor.execute("SELECT id" + table + ", nome FROM " + table + ";")
@@ -21,15 +31,15 @@ class dao(object):
         
         return ids
 
-    def GetAllTab(conn_db, table, id):
-        cursor = conn_db.cursor()
+    def GetAllTab(self, table, id):
+        cursor = self.conn.cursor()
 
         cursor.execute("SELECT * FROM " + table + " WHERE id" + table + "=" + id + ";")
      
         return cursor.fetchall()
 
-    def GetTables(conn_db):
-        cursor = conn_db.cursor()
+    def GetTables(self):
+        cursor = self.conn.cursor()
         
         cursor.execute("SHOW TABLES")
         tables = cursor.fetchall()
@@ -39,8 +49,8 @@ class dao(object):
 
         return tablesNames
 
-    def GetColumns(conn_db, table):
-        cursor = conn_db.cursor()
+    def GetColumns(self, table):
+        cursor = self.conn.cursor()
             
         cursor.execute("SHOW columns FROM " + table)
         
@@ -48,48 +58,49 @@ class dao(object):
 
         return columns
 
-    def CandidatoGetLocal(conn_db, table, value):
-        cursor = conn_db.cursor()
+    def CandidatoGetLocal(self, table, value):
+        cursor = self.conn.cursor()
         
         cursor.execute("select Candidato.idCandidato, Candidato.nome from Candidato inner join " + table + " on Candidato.origem=" + table + ".id" + table + " and " + table + ".nome=" + value)
 
         return cursor.fetchall()
 
 
-    def CandidatoGetPartido(conn_db, table, value):
-        cursor = conn_db.cursor()
+    def CandidatoGetPartido(self, table, value):
+        cursor = self.conn.cursor()
         
         cursor.execute("select Candidato.idCandidato, Candidato.nome from Candidato inner join " + table + " on Candidato.partido=" + table + ".id" + table + " and " + table + ".nome=" + value)
 
         return cursor.fetchall()
 
-    def PartidoGetColig(conn_db, table, value):
-        cursor = conn_db.cursor()
+    def PartidoGetColig(self, table, value):
+        cursor = self.conn.cursor()
         
         cursor.execute("select Partido.idPartido, Partido.nome from Partido inner join " + table + " on Partido.coligacao=" + table + ".id" + table + " and " + table + ".nome=" + value)
 
         return cursor.fetchall()
 
-    def Delete(conn_db, table, value):
+    def Delete(self, table, value):
         # No campo "passwd" coloca a senha correspondente ao seu MySQL
-        cursor = conn_db.cursor()
+        cursor = self.conn.cursor()
         
         cursor.execute("DELETE FROM " + table + " WHERE id" + table + " = " + value + ";")
-
         # Monta e executa a Query
         dados = cursor.fetchall()
 
+        self.conn.commit()
         return dados
 
-    def Insert(conn_db, table, valuesNames, values):
-        cursor = conn_db.cursor()
+    def Insert(self, table, valuesNames, values):
+        cursor = self.conn.cursor()
 
         cursor.execute("INSERT INTO " + table +
                         " (" + valuesNames + ") "+
                         "VALUES (" + values + ");")
+        self.conn.commit()
 
-    def Read(conn_db, coluna, tabela):
-        cursor = conn_db.cursor()
+    def Read(self, coluna, tabela):
+        cursor = self.conn.cursor()
 
         # Monta e executa a Query
         QueryString = "SELECT " + coluna + " FROM " + tabela + ";"
@@ -98,18 +109,19 @@ class dao(object):
 
         return dados
 
-    def Update(conn_db, table, fieldName, newValue, id):
+    def Update(self, table, fieldName, newValue, id):
         # No campo "passwd" coloca a senha correspondente ao seu MySQL
-        cursor = conn_db.cursor()
+        cursor = self.conn.cursor()
 
         # Monta e executa a Query
         QueryString = "UPDATE " + table + " SET " + fieldName + " = " + newValue + " WHERE id" + table + " = " + id + ";"
 
         cursor.execute(QueryString)
+        self.conn.commit()
 
-    def CreateDb(conn_db):
+    def CreateDb(self):
         # Usar cursor para fazer queries sql
-        cursor = conn_db.cursor()
+        cursor = self.conn.cursor()
 
         createScript = "criaBanco.sql"
 
@@ -124,3 +136,12 @@ class dao(object):
                     query = ""
                     
         print("Banco de dados mydb criado com sucesso")
+
+    def commit(self):
+        if( re.findall(r"class (.*?)dao'", str(type(self.conn))) ):
+            self.conn.commit()
+
+    def close(self):
+        # Testa pra ver se o atributo self.conn é mesmo da classe dao.
+        if( re.findall(r"class (.*?)dao'", str(type(self.conn))) ):
+            self.conn.close()
