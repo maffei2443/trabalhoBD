@@ -2,7 +2,7 @@
 # -*- coding: UTF-8 -*-
 import MySQLdb
 import os
-from CRUD import *
+from CRUD import dao
 import base64
 
 def GetImg(img):
@@ -11,11 +11,17 @@ def GetImg(img):
         return ret
 
 def clear():
-    os.system("clear")
+    try:
+        os.system("clear")
+    except:
+        try:
+            os.system("cls")
+        except:
+            print("Não foi possível limpar a tela.")
 
 def ShowAtb(conn_db, tableName, id):
-    data = GetAllTab(conn_db, tableName, id)
-    columns = GetColumns(conn_db, tableName)
+    data = dao.GetAllTab(conn_db, tableName, id)
+    columns = dao.GetColumns(conn_db, tableName)
 
     print("\nNome do atributo -- Valor")
     print("-------------------------")
@@ -23,7 +29,7 @@ def ShowAtb(conn_db, tableName, id):
         print(str(columns[i][0]) + " -- " + str(data[0][i]))
 
 def ShowColumns(conn_db, tableName):
-    columns = GetColumns(conn_db, tableName)
+    columns = dao.GetColumns(conn_db, tableName)
     print("Atributos de " +  tableName + ":")
     for column in columns:
         print(column[0])
@@ -37,7 +43,7 @@ def ShowIds(conn_db, tableName):
         print(str(item[0]) + " -- " + item[1])
 
 def CheckIds(conn_db, tableName, id):
-    ids = GetIds(conn_db, tableName)    
+    ids = dao.GetIds(conn_db, tableName)    
 
     exist = False
     for item in ids:
@@ -46,7 +52,7 @@ def CheckIds(conn_db, tableName, id):
     return exist
 
 def CheckColumn(conn_db, tableName, name):
-    columns = GetColumns(conn_db, tableName)
+    columns = dao.GetColumns(conn_db, tableName)
     
     exist = False
     for column in columns:
@@ -57,7 +63,7 @@ def CheckColumn(conn_db, tableName, name):
 def UserDelete(conn_db):
     try:
         print("UserDelete")
-        tables = GetTables(conn_db)
+        tables = dao.GetTables(conn_db)
         for table in tables:
             print("-- " + table)
 
@@ -75,7 +81,7 @@ def UserDelete(conn_db):
             input("O id que se deseja deletar nao existe, aperte ENTER para voltar ao menu")
             return
 
-        Delete(conn_db, tableName, id)    
+        dao.Delete(conn_db, tableName, id)    
        
         conn_db.commit()
     except Exception as e:
@@ -85,7 +91,7 @@ def UserDelete(conn_db):
 def UserCreate(conn_db):
     try:
         print("########## UserCreate ##########")
-        tables = GetTables(conn_db)
+        tables = dao.GetTables(conn_db)
         for table in tables:
             print("-- " + table)
 
@@ -95,7 +101,7 @@ def UserCreate(conn_db):
             input("Não é possível inserir um dado do tipo desejado, aperte ENTER para voltar ao menu")
             return
         
-        columns = GetColumns(conn_db, tableName)
+        columns = dao.GetColumns(conn_db, tableName)
 
         valuesNames = ""
         values = ""
@@ -121,7 +127,7 @@ def UserCreate(conn_db):
             valuesNames += column[0]
             values += value
 
-        Insert(conn_db, tableName, valuesNames, values)
+        dao.Insert(conn_db, tableName, valuesNames, values)
 
         conn_db.commit()
     except Exception as e:
@@ -131,7 +137,7 @@ def UserCreate(conn_db):
 def UserUpdate(conn_db):
     try:
         print("########## UserUpdate ##########")
-        tables = GetTables(conn_db)
+        tables = dao.GetTables(conn_db)
         for table in tables:
             print("-- " + table)
 
@@ -162,7 +168,7 @@ def UserUpdate(conn_db):
             value = "\"" + str(GetImg(value)) + "\""
             print("A")
 
-        Update(conn_db, tableName, name, value, id)
+        dao.Update(conn_db, tableName, name, value, id)
         input("Aperte ENTER para retornar ao menu")
         conn_db.commit()
     except Exception as e:
@@ -173,7 +179,7 @@ def UserRead(conn_db):
     try:
         print("########## UserRead ##########")
 
-        tables = GetTables(conn_db)
+        tables = dao.GetTables(conn_db)
         for table in tables:
             print("-- " + table)
 
@@ -193,7 +199,7 @@ def UserRead(conn_db):
                 input("Não é possível ler o dado " + column + " aperte ENTER para voltar ao menu")
                 return
 
-        data = Read(conn_db, atbs, tableName)
+        data = dao.Read(conn_db, atbs, tableName)
 
         for item in data:
             print("\nAtributo -- Valor")
@@ -205,7 +211,6 @@ def UserRead(conn_db):
     except Exception as e:
         print(e)
         input("Digite algo para voltar ao menu")
-
 
 def UserSpecial(conn_db):
     try:
@@ -222,7 +227,7 @@ def UserSpecial(conn_db):
         if(option == "1" or option == "Candidatos de um local"):
             clear()
             local = input("Digite o nome do local: ")
-            data = CandidatoGetLocal(conn_db, "Local", local)
+            data = dao.CandidatoGetLocal(conn_db, "Local", local)
             for item in data:
                 print("Id -- Nome")
                 print("----------------------")
@@ -232,7 +237,7 @@ def UserSpecial(conn_db):
         elif(option == "2" or option == "Candidatos de um partido"):
             clear()
             partido = input("Digite o nome do partido: ")
-            data = CandidatoGetPartido(conn_db, "Partido", partido)
+            data = dao.CandidatoGetPartido(conn_db, "Partido", partido)
             for item in data:
                 print("Id -- Nome")
                 print("----------------------")
@@ -242,7 +247,7 @@ def UserSpecial(conn_db):
         elif(option == "3" or option == "Partidos de uma coligacao"):
             clear()
             colig = input("Digite o nome da coligacao: ")
-            data = PartidoGetColig(conn_db, "Coligacao", colig)
+            data = dao.PartidoGetColig(conn_db, "Coligacao", colig)
             for item in data:
                 print("Id -- Nome")
                 print("----------------------")
@@ -252,7 +257,7 @@ def UserSpecial(conn_db):
         # elif(option == "4" or option == "Candidatos de um local e partido especificos"):
         #     clear()
         #     colig = input("Digite o nome do local: ")
-        #     data = PartidoGetColig(conn_db, "Coligacao", colig)
+        #     data = dao.PartidoGetColig(conn_db, "Coligacao", colig)
         #     for item in data:
         #         print("Id -- Nome")
         #         print("----------------------")
@@ -275,7 +280,7 @@ if __name__ == "__main__":
     op = input("Deseja criar/resetar o banco? (Y/N) ")
 
     if(op == "Y" or op == "y"):
-        CreateDb(conn_db)
+        dao.CreateDb(conn_db)
 
     conn_db = MySQLdb.connect(host="localhost", db="mydb", port=3306, user=user, passwd=passwd)
 
