@@ -436,4 +436,25 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 
 CREATE PROCEDURE `mydb`.`candlocal` (locnome nvarchar(45))
-select Candidato.idCandidato, Candidato.nome from Candidato inner join Local on Candidato.origem=Local.idLocal and Local.nome=locnome;
+  select Candidato.idCandidato, Candidato.nome from Candidato inner join Local on Candidato.origem=Local.idLocal and Local.nome=locnome;
+
+CREATE PROCEDURE `mydb`.`candpart` (locnome nvarchar(45))
+  select Candidato.idCandidato, Candidato.nome from Candidato inner join Partido on Candidato.partido=Partido.idPartido and Partido.nome=locnome;
+
+#Create Procedure `mydb`.`procswitch` (locnome nvarchar(45), specase smallint) 
+#BEGIN
+#IF (specase > 1) THEN CALL candlocal(locnome)
+#ELSE CALL candpart(locnome)
+#END IF;
+#END
+
+DELIMITER //
+
+
+Create Procedure `mydb`.`procswitch` (locnome nvarchar(45), specase smallint) 
+BEGIN
+IF (specase > 1) begin CALL candlocal(locnome); end
+ELSE begin CALL candpart(locnome); end
+END //
+
+DELIMITER ;
