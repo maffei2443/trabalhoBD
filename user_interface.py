@@ -49,8 +49,8 @@ def clear():
             print("Não foi possível limpar a tela.")
 
 def show_atb(data_obj, table_name, key):
-    data = data_obj.GetAllTab(table_name, key)
-    columns = data_obj.GetColumns(table_name)
+    data = data_obj.get_all_tab(table_name, key)
+    columns = data_obj.get_columns(table_name)
 
     print("\nNome do atributo -- Valor")
     print("-------------------------")
@@ -58,13 +58,13 @@ def show_atb(data_obj, table_name, key):
         print(str(columns[i][0]) + " -- " + str(data[0][i]))
 
 def show_columns(data_obj, table_name):
-    columns = data_obj.GetColumns(table_name)
+    columns = data_obj.get_columns(table_name)
     print("Atributos de " +  table_name + ":")
     for column in columns:
         print(column[0])
 
 def show_ids(data_obj, table_name):
-    keys = data_obj.GetIds(table_name)
+    keys = data_obj.get_ids(table_name)
 
     print("id -- Nome")
     print("-----------")
@@ -72,7 +72,7 @@ def show_ids(data_obj, table_name):
         print(str(item[0]) + " -- " + item[1])
 
 def check_ids(data_obj, table_name, key):
-    keys = data_obj.GetIds(table_name)
+    keys = data_obj.get_ids(table_name)
 
     exist = False
     for item in keys:
@@ -81,7 +81,7 @@ def check_ids(data_obj, table_name, key):
     return exist
 
 def check_column(data_obj, table_name, name):
-    columns = data_obj.GetColumns(table_name)
+    columns = data_obj.get_columns(table_name)
 
     exist = False
     for column in columns:
@@ -92,7 +92,7 @@ def check_column(data_obj, table_name, name):
 def user_delete(data_obj):
     try:
         print("user_delete")
-        tables = data_obj.GetTables()
+        tables = data_obj.get_tables()
         for table in tables:
             print("-- " + table)
 
@@ -106,11 +106,11 @@ def user_delete(data_obj):
 
         key = input("Digite o nome da chave do objeto que deseja deletar(chave de candidatura é o candidato, id da tabela para as demais tabelas): ")
 
-        if check_ids(data_obj, table_name, key) == False:
+        if not check_ids(data_obj, table_name, key):
             input("O id que se deseja deletar nao existe, aperte ENTER para voltar ao menu")
             return
 
-        data_obj.Delete(table_name, key)
+        data_obj.delete(table_name, key)
 
     except Exception as exception:
         print(exception)
@@ -119,7 +119,7 @@ def user_delete(data_obj):
 def user_create(data_obj):
     try:
         print("########## user_create ##########")
-        tables = data_obj.GetTables()
+        tables = data_obj.get_tables()
         for table in tables:
             print("-- " + table)
 
@@ -129,7 +129,7 @@ def user_create(data_obj):
             input("Não é possível inserir um dado do tipo desejado, aperte ENTER para voltar ao menu")
             return
 
-        columns = data_obj.GetColumns(table_name)
+        columns = data_obj.get_columns(table_name)
 
         values_names = ""
         values = ""
@@ -147,15 +147,15 @@ def user_create(data_obj):
                 value = "\"" + str(get_img(value)) + "\""
                 print("A")
 
-            if len(values_names):
+            if values_names:
                 values_names += ", "
-            if len(values):
+            if values:
                 values += ", "
 
             values_names += column[0]
             values += value
 
-        data_obj.Insert(table_name, values_names, values)
+        data_obj.insert(table_name, values_names, values)
 
     except Exception as exception:
         print(exception)
@@ -164,7 +164,7 @@ def user_create(data_obj):
 def user_update(data_obj):
     try:
         print("########## user_update ##########")
-        tables = data_obj.GetTables()
+        tables = data_obj.get_tables()
         for table in tables:
             print("-- " + table)
 
@@ -195,7 +195,7 @@ def user_update(data_obj):
             value = "\"" + str(get_img(value)) + "\""
             print("A")
 
-        data_obj.Update(table_name, name, value, key)
+        data_obj.update(table_name, name, value, key)
         input("Aperte ENTER para retornar ao menu")
     except Exception as exception:
         print(exception)
@@ -205,7 +205,7 @@ def user_read(data_obj):
     try:
         print("########## user_read ##########")
 
-        tables = data_obj.GetTables()
+        tables = data_obj.get_tables()
         for table in tables:
             print("-- " + table)
 
@@ -225,12 +225,12 @@ def user_read(data_obj):
                 input("Não é possível ler o dado " + column + " aperte ENTER para voltar ao menu")
                 return
 
-        data = data_obj.Read(atbs, table_name)
+        data = data_obj.read(atbs, table_name)
 
         for item in data:
             print("\nAtributo -- Valor")
             print("------------------")
-            for i in range(len(item)):
+            for i, _ in enumerate(item):
                 print(str(columns[i]) + ": " + str(item[i]))
 
         input("\nDigite ENTER para retornar ao menu")
@@ -253,7 +253,7 @@ def user_special(data_obj):
         if option == "1" or option == "Candidatos de um local":
             clear()
             local = input("Digite o nome do local: ")
-            data = data_obj.CandidatoGetLocalProc("Local", local)
+            data = data_obj.candidato_get_local("Local", local)
             for item in data:
                 print("Id -- Nome")
                 print("----------------------")
@@ -263,7 +263,7 @@ def user_special(data_obj):
         elif option == "2" or option == "Candidatos de um partido":
             clear()
             partido = input("Digite o nome do partido: ")
-            data = data_obj.CandidatoGetPartido("Partido", partido)
+            data = data_obj.candidato_get_partido("Partido", partido)
             for item in data:
                 print("Id -- Nome")
                 print("----------------------")
@@ -273,7 +273,7 @@ def user_special(data_obj):
         elif option == "3" or option == "Partidos de uma coligacao":
             clear()
             colig = input("Digite o nome da coligacao: ")
-            data = data_obj.PartidoGetColig("Coligacao", colig)
+            data = data_obj.partido_get_colig("Coligacao", colig)
             for item in data:
                 print("Id -- Nome")
                 print("----------------------")
@@ -302,12 +302,11 @@ def main():
 
     # Cria conexao com o banco. No caso, caso voce possua uma instancia do MySQL rodando
     # localmente, pode-se atribuir ao parametro host o valor "localhost"
-    data_obj = dao()
-    data_obj.conn_db(host="localhost", port=3306, user=user, passwd=passwd)
+    data_obj = dao(host="localhost", port=3306, user=user, passwd=passwd)
     option = input("Deseja criar/resetar o banco? (Y/N) ")
 
     if option == "Y" or option == "y":
-        data_obj.CreateDb()
+        data_obj.create_db()
     data_obj.conn_db(host="localhost", db="mydb", port=3306, user=user, passwd=passwd)
 
     stay = True

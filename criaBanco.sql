@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Partido` (
   CONSTRAINT `fk_Partido_Coligação1`
     FOREIGN KEY (`coligacao`)
     REFERENCES `mydb`.`Coligacao` (`idColigacao`)
-    ON DELETE CASCADE
+    ON DELETE SET NULL
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
