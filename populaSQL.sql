@@ -1,0 +1,11 @@
+INSERT INTO Local ( nome, regiao, estatistica_partidaria, Populacao) VALUES ("Rio de Abril","RA", "Vai magril!", 100000);
+INSERT INTO Local ( nome, regiao, estatistica_partidaria, Populacao) VALUES ("Rio de Janeiro","RJ", "Vai mengao!", 10000000);
+INSERT INTO Local ( nome, regiao, estatistica_partidaria, Populacao) VALUES ("Sao Paulo","SP", "Sempre atento" ,  23000000);
+INSERT INTO Local ( nome, regiao, estatistica_partidaria, Populacao) VALUES ("Brasilia", "DF", "Soh politico", 99999);
+INSERT INTO Local ( nome, regiao, estatistica_partidaria, Populacao) VALUES ("Itu", "SP", "Terra de gigantes", 500000);
+-- INSERT INTO Partido ("Partido Bacana", "PB", n, n, 1);
+-- INSERT INTO Partido ("Partido Supimpa", "PS", n, n, 1);
+-- INSERT INTO Partido (nome, sigla, alinhamento, coligacao) VALUES ("Partido Legal", "PL", n, n, 1);
+INSERT INTO Partido (nome,sigla, alinhamento) VALUES ("Partido Legal", "PL", "frente");
+INSERT INTO Candidato (nome, origem, partido, alfabetizacao) VALUES ("Luis", 5 ,1, 1);
+INSERT INTO Coligacao (nome, majoritaria, proporcional, presidente) VALUES ("Winners do jucao", 1, 1, 1);
