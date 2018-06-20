@@ -253,6 +253,7 @@ def user_special(data_obj):
         print("#1 - Candidatos de um local                           #")
         print("#2 - Candidatos de um partido                         #")
         print("#3 - Partidos de uma coligacao                        #")
+        print("#4 - Mostrar Presidentes                              #")
 
         option = input("# Opção: ")
 
@@ -284,6 +285,11 @@ def user_special(data_obj):
                 print("Id -- Nome")
                 print("----------------------")
                 print(str(item[0]) + "--" + str(item[1]) + "\n")
+            input("Digite ENTER para voltar ao menu")
+            
+        elif option == "4" or option == "Presidentes":
+            data = data_obj.read("*", "presidente")
+            print(data)
             input("Digite ENTER para voltar ao menu")
 
     except Exception as exception:
