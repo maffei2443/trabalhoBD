@@ -376,5 +376,5 @@ SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
-CREATE PROCEDURE candlocal (locnome nvarchar(45))
-select Candidato.idCandidato, Candidato.nome from Candidato inner join Local on Candidato.origem=Local.idLocal and Local.nome=locnome
+CREATE PROCEDURE `mydb`.`candlocal` (locnome nvarchar(45))
+select Candidato.idCandidato, Candidato.nome from Candidato inner join Local on Candidato.origem=Local.idLocal and Local.nome=locnome;
