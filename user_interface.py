@@ -2,9 +2,9 @@
 # -*- coding: UTF-8 -*-
 import os
 import base64
-from CRUD import dao
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
+from crud import dao
 
 def get_img(img):
     with open(img, "rb") as file:
@@ -12,7 +12,6 @@ def get_img(img):
         return ret
 
 def show_img(str_img):
-    str_img = base64.b64decode(str_img)
     img = ''
     prf = '87894u08uio89he'
     gambs = prf + '.png'
@@ -147,7 +146,6 @@ def user_create(data_obj):
 
             if column[1] == "longblob":
                 value = "\"" + str(get_img(value)) + "\""
-                print("A")
 
             if values_names:
                 values_names += ", "
@@ -196,7 +194,6 @@ def user_update(data_obj):
 
         if name == "foto":
             value = "\"" + str(get_img(value)) + "\""
-            print("A")
 
         data_obj.update(table_name, name, value, key)
 
@@ -236,7 +233,10 @@ def user_read(data_obj):
             print("\nAtributo -- Valor")
             print("------------------")
             for i, _ in enumerate(item):
-                print(str(columns[i]) + ": " + str(item[i]))
+                if columns[i] != "foto":
+                    print(str(columns[i]) + ": " + str(item[i]))
+                else:
+                    show_img(item[i])
 
         input("\nDigite ENTER para retornar ao menu")
     except Exception as exception:
@@ -245,13 +245,10 @@ def user_read(data_obj):
 
 def user_special(data_obj):
     try:
-        # cursor = conn_db.cursor()
-
         print("########## user_special ##########")
         print("#1 - Candidatos de um local                           #")
         print("#2 - Candidatos de um partido                         #")
         print("#3 - Partidos de uma coligacao                        #")
-        # print("#4 - Candidatos de um local e partido especificos     #")
 
         option = input("# Opção: ")
 
@@ -285,25 +282,13 @@ def user_special(data_obj):
                 print(str(item[0]) + "--" + str(item[1]) + "\n")
             input("Digite ENTER para voltar ao menu")
 
-        # elif option == "4" or option == "Candidatos de um local e partido especificos":
-        #     clear()
-        #     colig = input("Digite o nome do local: ")
-        #     data = data_obj.PartidoGetColig("Coligacao", colig)
-        #     for item in data:
-        #         print("Id -- Nome")
-        #         print("----------------------")
-        #         print(str(item[0]) + "--" + str(item[1]))
-        #     input("Digite ENTER para voltar ao menu")
     except Exception as exception:
         print(exception)
         input("Digite algo para voltar ao menu")
 
 def main():
-    # user = input("Digite o nome do usuario mysql: ")
-    # passwd = input("Digite a senha do usuario mysql: ")
-
-    user = 'root'
-    passwd = 'root'
+    user = input("Digite o nome do usuario mysql: ")
+    passwd = input("Digite a senha do usuario mysql: ")
 
     # Cria conexao com o banco. No caso, caso voce possua uma instancia do MySQL rodando
     # localmente, pode-se atribuir ao parametro host o valor "localhost"
