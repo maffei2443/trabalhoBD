@@ -72,6 +72,13 @@ class dao(object):
 
         return cursor.fetchall()
 
+    def CandidatoGetLocalProc(self, table, value):
+        cursor = self.conn.cursor()
+        
+        cursor.execute("CALL candlocal(" + value + ")")
+
+        return cursor.fetchall()
+
 
     def candidato_get_partido(self, table, value):
         cursor = self.conn.cursor()
