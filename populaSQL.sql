@@ -7,5 +7,5 @@ INSERT INTO Local ( nome, regiao, estatistica_partidaria, Populacao) VALUES ("It
 -- INSERT INTO Partido ("Partido Supimpa", "PS", n, n, 1);
 -- INSERT INTO Partido (nome, sigla, alinhamento, coligacao) VALUES ("Partido Legal", "PL", n, n, 1);
 INSERT INTO Partido (nome,sigla, alinhamento) VALUES ("Partido Legal", "PL", "frente");
-INSERT INTO Candidato (nome, origem, partido) VALUES ("Luis", 5 ,1);
+INSERT INTO Candidato (nome, origem, partido, alfabetizacao) VALUES ("Luis", 5 ,1, 1);
 INSERT INTO Coligacao (nome, majoritaria, proporcional, presidente) VALUES ("Winners do jucao", 1, 1, 1);
