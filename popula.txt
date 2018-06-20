@@ -88,4 +88,10 @@ Coligacao
 0
 1
 2
+
+2
+Partido
+1
+coligacao 1
+
 6
