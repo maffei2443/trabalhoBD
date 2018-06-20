@@ -255,7 +255,7 @@ def user_special(data_obj):
         if option == "1" or option == "Candidatos de um local":
             clear()
             local = input("Digite o nome do local: ")
-            data = data_obj.candidato_get_local("Local", local)
+            data = data_obj.GetProc("Local", local)
             for item in data:
                 print("Id -- Nome")
                 print("----------------------")
@@ -265,7 +265,7 @@ def user_special(data_obj):
         elif option == "2" or option == "Candidatos de um partido":
             clear()
             partido = input("Digite o nome do partido: ")
-            data = data_obj.candidato_get_partido("Partido", partido)
+            data = data_obj.GetProc("Partido", partido)
             for item in data:
                 print("Id -- Nome")
                 print("----------------------")
