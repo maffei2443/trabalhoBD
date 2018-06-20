@@ -79,6 +79,14 @@ class dao(object):
 
         return cursor.fetchall()
 
+    def GetProc(self, table, value):
+        cursor = self.conn.cursor()
+        if table == "Local":
+            cursor.execute("CALL procswitch(" + value + ", 0)")
+        else:
+            cursor.execute("CALL procswitch(" + value + ", 1)")
+
+        return cursor.fetchall()
 
     def candidato_get_partido(self, table, value):
         cursor = self.conn.cursor()
