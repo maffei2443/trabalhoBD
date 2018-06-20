@@ -21,7 +21,7 @@ def show_img(str_img):
         f.write(str_img)
     with open(gambs2, 'wb') as g:
         g.write(str_img)
-    print("Escreveuu")    
+
     try: 
         img = mpimg.imread(gambs)
     except Exception as e:
@@ -29,15 +29,17 @@ def show_img(str_img):
             img = mpimg.imread(gambs2)
         except Exception as e:
             print(e)
-            print("A imagem deve estar no formato .png ou .jpg")
+ 
     imgplot = plt.imshow(img)
     a = plt.show()
     try:
+        os.remove(gambs2)
         os.remove(gambs)
-        os.system('rm ' + gambs)
     except Exception as e:
-        os.remove('rm ' + gambs2)
-        print(e)
+        try:
+            os.remove(gambs)
+        except Exception as e:
+            print(e)
 
 
 def clear():
@@ -235,7 +237,7 @@ def user_read(data_obj):
             print("\nAtributo -- Valor")
             print("------------------")
             for i, _ in enumerate(item):
-                if columns[i] != "foto":
+                if columns[i] != "foto" or item[i] == None:
                     print(str(columns[i]) + ": " + str(item[i]))
                 else:
                     show_img(item[i])
