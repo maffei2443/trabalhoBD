@@ -3,11 +3,41 @@
 import os
 import base64
 from CRUD import dao
+import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
 
 def get_img(img):
     with open(img, "rb") as file:
         ret = base64.b64encode(file.read())
         return ret
+
+def show_img(str_img):
+    str_img = base64.b64decode(str_img)
+    img = ''
+    prf = '87894u08uio89he'
+    gambs = prf + '.png'
+    gambs2 = prf + '.jpg'
+    with open(gambs, 'wb') as f:
+        f.write(str_img)
+    with open(gambs2, 'wb') as g:
+        g.write(str_img)
+    print("Escreveuu")    
+    try: 
+        img=mpimg.imread(gambs)
+    except Exception as e:
+        try:
+            img=mpimg.imread(gambs2)
+        except Exception as e:
+            print("A imagem deve estar no formato .png ou .jpg")
+    imgplot = plt.imshow(img)
+    a = plt.show()
+    try:
+        os.remove(gambs)
+        os.system('rm ' + gambs)
+    except Exception as e:
+        os.remove('rm ' + gambs2)
+        print(e)
+
 
 def clear():
     try:
@@ -264,11 +294,11 @@ def user_special(data_obj):
         input("Digite algo para voltar ao menu")
 
 def main():
-    user = input("Digite o nome do usuario mysql: ")
-    passwd = input("Digite a senha do usuario mysql: ")
+    # user = input("Digite o nome do usuario mysql: ")
+    # passwd = input("Digite a senha do usuario mysql: ")
 
-    # user = 'root'
-    # passwd = 'root'
+    user = 'root'
+    passwd = 'root'
 
     # Cria conexao com o banco. No caso, caso voce possua uma instancia do MySQL rodando
     # localmente, pode-se atribuir ao parametro host o valor "localhost"
