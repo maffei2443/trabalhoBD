@@ -12,6 +12,7 @@ def get_img(img):
         return ret
 
 def show_img(str_img):
+    str_img = base64.b64decode(str_img)
     img = ''
     prf = '87894u08uio89he'
     gambs = prf + '.png'
@@ -22,11 +23,12 @@ def show_img(str_img):
         g.write(str_img)
     print("Escreveuu")    
     try: 
-        img=mpimg.imread(gambs)
+        img = mpimg.imread(gambs)
     except Exception as e:
         try:
-            img=mpimg.imread(gambs2)
+            img = mpimg.imread(gambs2)
         except Exception as e:
+            print(e)
             print("A imagem deve estar no formato .png ou .jpg")
     imgplot = plt.imshow(img)
     a = plt.show()
@@ -54,7 +56,7 @@ def show_atb(data_obj, table_name, key):
     print("\nNome do atributo -- Valor")
     print("-------------------------")
     for i in range(len(data[0])):
-        print(str(columns[i][0]) + " -- " + str(data[0][i]))
+        print((str(columns[i][0]) + " -- " + str(data[0][i]))[:200])
 
 def show_columns(data_obj, table_name):
     columns = data_obj.get_columns(table_name)
@@ -145,7 +147,7 @@ def user_create(data_obj):
             value = input("Digite um valor do tipo " + column[1] + " para " + column[0] + ": ")
 
             if column[1] == "longblob":
-                value = "\"" + str(get_img(value)) + "\""
+                value = "\"" + get_img(value).decode('ascii') + "\""
 
             if values_names:
                 values_names += ", "
@@ -193,7 +195,8 @@ def user_update(data_obj):
 
 
         if name == "foto":
-            value = "\"" + str(get_img(value)) + "\""
+            show_img(get_img(value))
+            value = "\"" + get_img(value).decode('ascii') + "\""
 
         data_obj.update(table_name, name, value, key)
 
