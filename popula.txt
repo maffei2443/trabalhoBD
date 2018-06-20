@@ -8,6 +8,7 @@ Local
 n
 y
 10000000
+
 1
 Local
 "Sao Paulo"
@@ -15,30 +16,35 @@ Local
 n
 y
 23000000
+
 1
 Local
 "Brasilia"
 "DF"
 n
 n
+
 1
 Partido
 "Partido Bacana"
 "PB"
 n
 n
+
 1
 Partido
 "Partido Supimpa"
 "PS"
 n
 n
+
 1
 Partido
 "Partido Legal"
 "PL"
 n
 n
+
 1
 Candidato
 "Luis"
@@ -48,6 +54,7 @@ n
 3
 1
 n
+
 1
 Candidato
 "Caio"
@@ -57,6 +64,7 @@ n
 1
 1
 n
+
 1
 Candidato
 "Geno"
@@ -66,12 +74,14 @@ n
 2
 2
 n
+
 1
 Coligacao
 "Dialig"
 1
 0
 1
+
 1
 Coligacao
 "Noitelig"

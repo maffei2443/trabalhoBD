@@ -235,7 +235,7 @@ def user_read(data_obj):
             print("\nAtributo -- Valor")
             print("------------------")
             for i, _ in enumerate(item):
-                if columns[i] != "foto":
+                if columns[i] != "foto" or item[i] == None:
                     print(str(columns[i]) + ": " + str(item[i]))
                 else:
                     show_img(item[i])
