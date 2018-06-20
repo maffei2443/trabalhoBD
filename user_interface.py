@@ -289,7 +289,11 @@ def user_special(data_obj):
             
         elif option == "4" or option == "Presidentes":
             data = data_obj.read("*", "presidente")
-            print(data)
+            print("Presidentes de Coligacao")
+            print("-------------------------")
+            for presidente in data:
+                print(presidente[0])
+            print()
             input("Digite ENTER para voltar ao menu")
 
     except Exception as exception:
@@ -302,12 +306,12 @@ def main():
 
     # Cria conexao com o banco. No caso, caso voce possua uma instancia do MySQL rodando
     # localmente, pode-se atribuir ao parametro host o valor "localhost"
-    data_obj = dao(host="172.17.0.2", port=3306, user=user, passwd=passwd)
+    data_obj = dao(host="localhost", port=3306, user=user, passwd=passwd)
     option = input("Deseja criar/resetar o banco? (Y/N) ")
 
     if option == "Y" or option == "y":
         data_obj.create_db()
-    data_obj.conn_db(host="172.17.0.2", db="mydb", port=3306, user=user, passwd=passwd)
+    data_obj.conn_db(host="localhost", db="mydb", port=3306, user=user, passwd=passwd)
 
     stay = True
 
