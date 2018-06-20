@@ -223,7 +223,7 @@ def user_special(data_obj):
         if option == "1" or option == "Candidatos de um local":
             clear()
             local = input("Digite o nome do local: ")
-            data = data_obj.CandidatoGetLocal("Local", local)
+            data = data_obj.CandidatoGetLocalProc("Local", local)
             for item in data:
                 print("Id -- Nome")
                 print("----------------------")
