@@ -434,6 +434,7 @@ SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
+create view presidente as select c.nome from Candidato c, Coligacao d where d.presidente = c.idCandidato;
 
 CREATE PROCEDURE `mydb`.`candlocal` (locnome nvarchar(45))
   select Candidato.idCandidato, Candidato.nome from Candidato inner join Local on Candidato.origem=Local.idLocal and Local.nome=locnome;
