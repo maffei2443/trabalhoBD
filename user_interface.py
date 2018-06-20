@@ -82,6 +82,8 @@ def user_delete(data_obj):
 
         data_obj.delete(table_name, key)
 
+        input(table_name + " deletado com sucesso, aperte ENTER para retornar ao menu")
+
     except Exception as exception:
         print(exception)
         input("Digite algo para voltar ao menu")
@@ -126,6 +128,7 @@ def user_create(data_obj):
             values += value
 
         data_obj.insert(table_name, values_names, values)
+        input(table_name + " inserido com sucesso, aperte ENTER para retornar ao menu")
 
     except Exception as exception:
         print(exception)
@@ -166,7 +169,9 @@ def user_update(data_obj):
             print("A")
 
         data_obj.update(table_name, name, value, key)
-        input("Aperte ENTER para retornar ao menu")
+
+        input(table_name + " atualizado com sucesso, aperte ENTER para retornar ao menu")
+
     except Exception as exception:
         print(exception)
         input("Digite algo para voltar ao menu")

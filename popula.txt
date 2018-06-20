@@ -44,8 +44,7 @@ Candidato
 "Luis"
 n
 n
-y
-"Alfabetizado"
+1
 3
 1
 n
@@ -54,7 +53,7 @@ Candidato
 "Caio"
 n
 n
-n
+1
 1
 1
 n
@@ -63,8 +62,7 @@ Candidato
 "Geno"
 n
 n
-y
-"Não Alfabetizado"
+0
 2
 2
 n
