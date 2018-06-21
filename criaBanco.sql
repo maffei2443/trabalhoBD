@@ -448,14 +448,3 @@ CREATE PROCEDURE `mydb`.`candpart` (locnome nvarchar(45))
 #ELSE CALL candpart(locnome)
 #END IF;
 #END
-
-DELIMITER //
-
-
-Create Procedure `mydb`.`procswitch` (locnome nvarchar(45), specase smallint) 
-BEGIN
-IF (specase > 1) begin CALL candlocal(locnome); end
-ELSE begin CALL candpart(locnome); end
-END //
-
-DELIMITER ;

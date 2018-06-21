@@ -260,7 +260,7 @@ def user_special(data_obj):
         if option == "1" or option == "Candidatos de um local":
             clear()
             local = input("Digite o nome do local: ")
-            data = data_obj.candidato_get_local("Local", local)
+            data = data_obj.Get_Proc("Local", local)
             for item in data:
                 print("Id -- Nome")
                 print("----------------------")
@@ -306,12 +306,12 @@ def main():
 
     # Cria conexao com o banco. No caso, caso voce possua uma instancia do MySQL rodando
     # localmente, pode-se atribuir ao parametro host o valor "localhost"
-    data_obj = dao(host="localhost", port=3306, user=user, passwd=passwd)
+    data_obj = dao(host="172.17.0.2", port=3306, user=user, passwd=passwd)
     option = input("Deseja criar/resetar o banco? (Y/N) ")
 
     if option == "Y" or option == "y":
         data_obj.create_db()
-    data_obj.conn_db(host="localhost", db="mydb", port=3306, user=user, passwd=passwd)
+    data_obj.conn_db(host="172.17.0.2", db="mydb", port=3306, user=user, passwd=passwd)
 
     stay = True
 
